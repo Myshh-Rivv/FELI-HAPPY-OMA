@@ -9,54 +9,63 @@
 </head>
 <body>
 
-  <!-- Fondo de puntos luminosos / estrellas LED -->
+  <!-- Fondo animado de estrellas/partículas -->
   <div id="stars-container"></div>
 
-  <!-- Pantalla inicial para iniciar el audio -->
+  <!-- PANTALLA INICIAL: Regalo con luces Neón -->
   <div id="start-overlay">
-    <button id="start-btn">❤️ Toca aquí para ver tu sorpresa ❤️</button>
-  </div>
-
-  <!-- Escena 1 (Segs 1-8): Trompetas -->
-  <div id="scene-1" class="scene hidden">
-    <div class="trumpet left">🎺<span class="note">🎵</span></div>
-    <div class="trumpet right">🎺<span class="note">🎶</span></div>
-  </div>
-
-  <!-- Escena 2 (Segs 8-30): Título Grande -->
-  <div id="scene-2" class="scene hidden">
-    <h1 class="title-3d">F E L I Z &nbsp; C U M P L E &nbsp; M A M I I I &nbsp; G R A C I E L A</h1>
-  </div>
-
-  <!-- Escena 3 (Segs 30-45): Torta y Vela -->
-  <div id="scene-3" class="scene hidden">
-    <div class="cake-container">
-      <div class="flame" id="candle-flame">🔥</div>
-      <div class="candle">🕯️</div>
-      <div class="cake">🎂</div>
+    <div class="glow-title">¡MAMI GRACIELA! ❤️</div>
+    <p class="sub-glow">Tengo una sorpresa para ti...</p>
+    
+    <div id="gift-box" class="gift-glow">
+      <div class="gift-lid"></div>
+      <div class="gift-body"></div>
+      <div class="gift-ribbon"></div>
     </div>
-    <h2 id="wish-text">PIDE UN DESEO ✨</h2>
-    <div id="countdown">3</div>
+
+    <button id="start-btn">TOCA EL REGALO PARA COMENZAR ✨</button>
   </div>
 
-  <!-- Escena 4 (Seg 45 en adelante): Sol y Carta -->
+  <!-- ESCENA 1 (0s - 8s): Trompetas 3D en movimiento con notas -->
+  <div id="scene-1" class="scene hidden">
+    <div class="trumpet-3d left-t">🎺<span class="music-note">🎵</span><span class="music-note n2">🎶</span></div>
+    <div class="trumpet-3d right-t">🎺<span class="music-note">🎶</span><span class="music-note n2">🎵</span></div>
+  </div>
+
+  <!-- ESCENA 2 (8s - 30s): Título Gigante Neón Verde / Blanco -->
+  <div id="scene-2" class="scene hidden">
+    <h1 class="glow-heading green-neon">FELIZ CUMPLEAÑOS</h1>
+    <h2 class="glow-subheading">MAMI GRACIELA</h2>
+    <div class="neon-heart">❤️</div>
+  </div>
+
+  <!-- ESCENA 3 (30s - 45s): Torta + Pide un deseo con toque neón -->
+  <div id="scene-3" class="scene hidden">
+    <div class="cake-3d">
+      <div class="flame-glow" id="flame">🔥</div>
+      <div class="cake-body">🎂</div>
+    </div>
+    <h2 id="wish-title" class="green-glow-text">PIDE UN DESEO ✨</h2>
+    <div id="countdown-num">3</div>
+  </div>
+
+  <!-- ESCENA 4 (45s - 90s): Sol Resplandeciente + Carta con tu firma -->
   <div id="scene-4" class="scene hidden">
-    <div class="sun-3d">☀️</div>
-    <div class="card-3d">
-      <h2>¡Feliz día Mami Graciela! 🎉</h2>
-      <p>Te quiero muchísimo con todo mi corazón. Gracias por ser la mejor guía, por cuidarme siempre, brindarme tu amor incondicional y acompañarme en todo momento.</p>
-      <p>Espero de verdad que este nuevo año de vida esté lleno de infinitas alegrías, salud, risas y momentos hermosos juntas.</p>
+    <div class="sun-glow">☀️</div>
+    <div class="letter-card">
+      <h2>¡Feliz día Mami! 🎉</h2>
+      <p>Te quiero muchísimo con todo mi corazón. Espero que este cumpleaños esté lleno de infinita alegría, risas, salud y momentos mágicos juntas.</p>
+      <p>Gracias por ser siempre mi mejor apoyo, por cuidarme y darme tu amor incondicional cada día.</p>
       <div class="signature">Atte: tu hija Darcy ❤️</div>
     </div>
   </div>
 
-  <!-- Escena Final: Mariposa de puntos verdes -->
+  <!-- ESCENA 5 (Final): Mariposa con puntos VERDES en movimiento -->
   <div id="scene-5" class="scene hidden">
-    <div class="butterfly-container" id="butterfly-dots"></div>
-    <h1 class="final-text">¡FELIZ CUMPLEAÑOS GRACIELA! 🎉✨</h1>
+    <div id="butterfly-canvas"></div>
+    <h1 class="glow-heading green-neon final-title">¡FELIZ CUMPLEAÑOS GRACIELA! ✨</h1>
   </div>
 
-  <!-- Audio apuntando exactamente a mananitas.mp3.mpeg -->
   <audio id="bg-music" src="mananitas.mp3.mpeg"></audio>
 
   <script src="script.js"></script>
