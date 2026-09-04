@@ -3,32 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>¡Feliz Cumpleaños Mamá!</title>
+  <title>¡Feliz Cumpleaños Mami Graciela!</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-  <div id="start-overlay" class="overlay">
+  <!-- Fondo de puntos luminosos / estrellas LED -->
+  <div id="stars-container"></div>
+
+  <!-- Pantalla inicial para iniciar el audio -->
+  <div id="start-overlay">
     <button id="start-btn">❤️ Toca aquí para ver tu sorpresa ❤️</button>
   </div>
 
-  <div id="main-content" class="hidden">
-    <h1 class="bounce-text">🎉 ¡FELIZ CUMPLEAÑOS MAMÁ! 🎉</h1>
+  <!-- Escena 1 (Segs 1-8): Trompetas -->
+  <div id="scene-1" class="scene hidden">
+    <div class="trumpet left">🎺<span class="note">🎵</span></div>
+    <div class="trumpet right">🎺<span class="note">🎶</span></div>
+  </div>
 
-    <div class="band-container">
-      <img src="https://img.icons8.com/color/96/mickey-mouse.png" alt="Ratoncito Trompeta" class="musician play-anim-1">
-      <img src="https://img.icons8.com/color/96/minnie-mouse.png" alt="Ratoncita Tambor" class="musician play-anim-2">
-      <img src="https://img.icons8.com/color/96/donald-duck.png" alt="Donald Guitarrón" class="musician play-anim-1">
+  <!-- Escena 2 (Segs 8-30): Título Grande -->
+  <div id="scene-2" class="scene hidden">
+    <h1 class="title-3d">F E L I Z &nbsp; C U M P L E &nbsp; M A M I I I &nbsp; G R A C I E L A</h1>
+  </div>
+
+  <!-- Escena 3 (Segs 30-45): Torta y Vela -->
+  <div id="scene-3" class="scene hidden">
+    <div class="cake-container">
+      <div class="flame" id="candle-flame">🔥</div>
+      <div class="candle">🕯️</div>
+      <div class="cake">🎂</div>
     </div>
+    <h2 id="wish-text">PIDE UN DESEO ✨</h2>
+    <div id="countdown">3</div>
+  </div>
 
-    <div class="card">
-      <p>Gracias por ser la mejor mamá del mundo. ❤️</p>
-      <p>Te amo con todo mi corazón.</p>
+  <!-- Escena 4 (Seg 45 en adelante): Sol y Carta -->
+  <div id="scene-4" class="scene hidden">
+    <div class="sun-3d">☀️</div>
+    <div class="card-3d">
+      <h2>¡Feliz día Mami Graciela! 🎉</h2>
+      <p>Te quiero muchísimo con todo mi corazón. Gracias por ser la mejor guía, por cuidarme siempre, brindarme tu amor incondicional y acompañarme en todo momento.</p>
+      <p>Espero de verdad que este nuevo año de vida esté lleno de infinitas alegrías, salud, risas y momentos hermosos juntas.</p>
+      <div class="signature">Atte: tu hija Darcy ❤️</div>
     </div>
   </div>
 
-  <audio id="bg-music" src="mananitas.mp3" loop></audio>
+  <!-- Escena Final: Mariposa de puntos verdes -->
+  <div id="scene-5" class="scene hidden">
+    <div class="butterfly-container" id="butterfly-dots"></div>
+    <h1 class="final-text">¡FELIZ CUMPLEAÑOS GRACIELA! 🎉✨</h1>
+  </div>
+
+  <!-- Audio apuntando exactamente a mananitas.mp3.mpeg -->
+  <audio id="bg-music" src="mananitas.mp3.mpeg"></audio>
 
   <script src="script.js"></script>
 </body>
