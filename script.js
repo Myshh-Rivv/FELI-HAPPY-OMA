@@ -1,20 +1,24 @@
-document.getElementById('start-btn').addEventListener('click', function() {
+// Iniciar con el regalo
+document.getElementById('start-overlay').addEventListener('click', startExperience);
+
+function startExperience() {
   document.getElementById('start-overlay').classList.add('hidden');
   const music = document.getElementById('bg-music');
   music.play();
 
-  createStars();
-  runSequence();
-});
+  generateStars();
+  runTimeline();
+}
 
-// Crear fondo de estrellas LED
-function createStars() {
+// Estrellas de fondo
+function generateStars() {
   const container = document.getElementById('stars-container');
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 100; i++) {
     const star = document.createElement('div');
-    star.className = 'star-led';
-    star.style.width = Math.random() * 4 + 2 + 'px';
-    star.style.height = star.style.width;
+    star.className = 'star';
+    const size = Math.random() * 3 + 2;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
     star.style.top = Math.random() * 100 + 'vh';
     star.style.left = Math.random() * 100 + 'vw';
     star.style.animationDelay = Math.random() * 2 + 's';
@@ -22,90 +26,90 @@ function createStars() {
   }
 }
 
-// Secuencia de tiempos sincronizada
-function runSequence() {
-  // Escena 1: Segs 1 a 8
-  showScene('scene-1');
+// Tiempos exactos
+function runTimeline() {
+  // Escena 1: Trompetas (0s a 8s)
+  show('scene-1');
 
-  // Escena 2: Seg 8 (Título "FELIZ CUMPLE MAMII GRACIELA")
+  // Escena 2: Feliz Cumple Mami Graciela (8s a 30s)
   setTimeout(() => {
-    hideScene('scene-1');
-    showScene('scene-2');
+    hide('scene-1');
+    show('scene-2');
   }, 8000);
 
-  // Escena 3: Seg 30 (Torta y Cuenta Regresiva)
+  // Escena 3: Torta y Deseo (30s a 45s)
   setTimeout(() => {
-    hideScene('scene-2');
-    showScene('scene-3');
+    hide('scene-2');
+    show('scene-3');
     startCountdown();
   }, 30000);
 
-  // Escena 4: Seg 45 (Sol y Carta)
+  // Escena 4: Sol y Carta Darcy (45s a 90s)
   setTimeout(() => {
-    hideScene('scene-3');
-    showScene('scene-4');
+    hide('scene-3');
+    show('scene-4');
   }, 45000);
 
-  // Escena 5: Seg 90 (Mariposa de luz verde y cierre)
+  // Escena 5: Mariposa Verde (90s en adelante)
   setTimeout(() => {
-    hideScene('scene-4');
-    createButterfly();
-    showScene('scene-5');
+    hide('scene-4');
+    buildGreenButterfly();
+    show('scene-5');
   }, 90000);
 }
 
-function showScene(id) {
+function show(id) {
   document.getElementById(id).classList.remove('hidden');
 }
 
-function hideScene(id) {
+function hide(id) {
   document.getElementById(id).classList.add('hidden');
 }
 
-// Cuenta regresiva y serpentinas
+// Cuenta regresiva torta
 function startCountdown() {
-  let count = 3;
-  const countEl = document.getElementById('countdown');
-  const wishEl = document.getElementById('wish-text');
+  let val = 3;
+  const numEl = document.getElementById('countdown-num');
+  const titleEl = document.getElementById('wish-title');
 
-  const timer = setInterval(() => {
-    count--;
-    if (count > 0) {
-      countEl.innerText = count;
+  const interval = setInterval(() => {
+    val--;
+    if (val > 0) {
+      numEl.innerText = val;
     } else {
-      clearInterval(timer);
-      document.getElementById('candle-flame').style.display = 'none';
-      wishEl.innerText = "¡BRAVOOO! 🎉✨";
-      countEl.innerText = "";
-      launchConfetti();
+      clearInterval(interval);
+      document.getElementById('flame').style.display = 'none';
+      titleEl.innerText = "¡BRAVOOO! 🎉✨";
+      numEl.innerText = "";
+      
+      confetti({
+        particleCount: 180,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
     }
   }, 1000);
 }
 
-function launchConfetti() {
-  confetti({
-    particleCount: 150,
-    spread: 100,
-    origin: { y: 0.6 }
-  });
-}
+// Construcción de la Mariposa en Partículas Verdes
+function buildGreenButterfly() {
+  const canvas = document.getElementById('butterfly-canvas');
+  const shades = ['#2ed573', '#10ac84', '#1dd1a1', '#7bed9f', '#00ff7f'];
 
-// Generar mariposa con puntos verdes de distintas tonalidades
-function createButterfly() {
-  const container = document.getElementById('butterfly-dots');
-  const greenShades = ['#1dd1a1', '#10ac84', '#00d2d3', '#54a0ff', '#2ed573'];
-
-  // Formación matemática de alas de mariposa en puntos
-  for (let t = 0; t < Math.PI * 4; t += 0.1) {
+  for (let t = 0; t < Math.PI * 4; t += 0.08) {
     const r = Math.exp(Math.sin(t)) - 2 * Math.cos(4 * t) + Math.pow(Math.sin((2 * t - Math.PI) / 24), 5);
-    const x = 125 + r * 35 * Math.cos(t);
-    const y = 125 - r * 35 * Math.sin(t);
+    const x = 140 + r * 40 * Math.cos(t);
+    const y = 140 - r * 40 * Math.sin(t);
 
-    const dot = document.createElement('div');
-    dot.className = 'green-dot';
-    dot.style.left = x + 'px';
-    dot.style.top = y + 'px';
-    dot.style.backgroundColor = greenShades[Math.floor(Math.random() * greenShades.length)];
-    container.appendChild(dot);
+    const particle = document.createElement('div');
+    particle.className = 'green-particle';
+    particle.style.left = x + 'px';
+    particle.style.top = y + 'px';
+    const chosenColor = shades[Math.floor(Math.random() * shades.length)];
+    particle.style.color = chosenColor;
+    particle.style.backgroundColor = chosenColor;
+    particle.style.animationDelay = Math.random() * 2 + 's';
+
+    canvas.appendChild(particle);
   }
 }
