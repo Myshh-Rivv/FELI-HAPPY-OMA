@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Feliz Cumpleaños Mamá!</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <div id="start-overlay" class="overlay">
+    <button id="start-btn">❤️ Toca aquí para ver tu sorpresa ❤️</button>
+  </div>
+
+  <div id="main-content" class="hidden">
+    <h1 class="bounce-text">🎉 ¡FELIZ CUMPLEAÑOS MAMÁ! 🎉</h1>
+
+    <div class="band-container">
+      <img src="https://img.icons8.com/color/96/mickey-mouse.png" alt="Ratoncito Trompeta" class="musician play-anim-1">
+      <img src="https://img.icons8.com/color/96/minnie-mouse.png" alt="Ratoncita Tambor" class="musician play-anim-2">
+      <img src="https://img.icons8.com/color/96/donald-duck.png" alt="Donald Guitarrón" class="musician play-anim-1">
+    </div>
+
+    <div class="card">
+      <p>Gracias por ser la mejor mamá del mundo. ❤️</p>
+      <p>Te amo con todo mi corazón.</p>
+    </div>
+  </div>
+
+  <audio id="bg-music" src="mananitas.mp3" loop></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
