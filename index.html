@@ -4,66 +4,88 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>¡Feliz Cumpleaños Mami Graciela!</title>
+  <!-- Fuentes tiernas y animadas desde Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Pacifico&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-  <!-- Fondo animado de estrellas/partículas -->
-  <div id="stars-container"></div>
+  <!-- Fondo animado de chispas y confeti flotante -->
+  <div id="floating-background"></div>
 
-  <!-- PANTALLA INICIAL: Regalo con luces Neón -->
+  <!-- PANTALLA INICIAL: Carta/Sobre Interactivo estilo Kawaii -->
   <div id="start-overlay">
-    <div class="glow-title">¡MAMI GRACIELA! ❤️</div>
-    <p class="sub-glow">Tengo una sorpresa para ti...</p>
-    
-    <div id="gift-box" class="gift-glow">
-      <div class="gift-lid"></div>
-      <div class="gift-body"></div>
-      <div class="gift-ribbon"></div>
-    </div>
+    <div class="card-intro">
+      <div class="character-header">
+        <span class="kawaii-pet">🐻</span>
+        <span class="kawaii-pet">🐰</span>
+      </div>
+      <h1 class="bubbly-title">Happy Birthday!</h1>
+      <p class="subtitle-text">Para: Mami Graciela ❤️</p>
+      
+      <!-- Sobre animado -->
+      <div id="envelope" class="envelope-wrapper">
+        <div class="envelope-flap"></div>
+        <div class="envelope-paper">✉️</div>
+        <div class="envelope-heart">💖</div>
+      </div>
 
-    <button id="start-btn">TOCA EL REGALO PARA COMENZAR ✨</button>
+      <button id="start-btn">Toca aquí para abrir ✨</button>
+    </div>
   </div>
 
-  <!-- ESCENA 1 (0s - 8s): Trompetas 3D en movimiento con notas -->
+  <!-- ESCENA 1 (0s - 8s): Mensaje de Bienvenida Animado con Personajes -->
   <div id="scene-1" class="scene hidden">
-    <div class="trumpet-3d left-t">🎺<span class="music-note">🎵</span><span class="music-note n2">🎶</span></div>
-    <div class="trumpet-3d right-t">🎺<span class="music-note">🎶</span><span class="music-note n2">🎵</span></div>
+    <div class="welcome-box">
+      <div class="cute-badge">27 May / Día Especial</div>
+      <h1 class="animated-heading">Happy Birthday</h1>
+      <h2 class="mom-name">Mami Graciela</h2>
+      <div class="floating-pets">
+        <span class="bounce-item">🌸</span>
+        <span class="bounce-item delay-1">🐻</span>
+        <span class="bounce-item delay-2">🎀</span>
+      </div>
+    </div>
   </div>
 
-  <!-- ESCENA 2 (8s - 30s): Título Gigante Neón Verde / Blanco -->
+  <!-- ESCENA 2 (8s - 30s): Torta de Cumpleaños Ilustrada con Velita Animada -->
   <div id="scene-2" class="scene hidden">
-    <h1 class="glow-heading green-neon">FELIZ CUMPLEAÑOS</h1>
-    <h2 class="glow-subheading">MAMI GRACIELA</h2>
-    <div class="neon-heart">❤️</div>
+    <div class="cake-container">
+      <div class="candle-flame" id="flame">🔥</div>
+      <div class="cake-illustration">🎂</div>
+    </div>
+    <h2 id="wish-title" class="wish-text">Pide un deseo... ✨</h2>
+    <div id="countdown-num" class="countdown-bounce">3</div>
   </div>
 
-  <!-- ESCENA 3 (30s - 45s): Torta + Pide un deseo con toque neón -->
+  <!-- ESCENA 3 (30s - 60s): Carta con Transición de Flores desplegables -->
   <div id="scene-3" class="scene hidden">
-    <div class="cake-3d">
-      <div class="flame-glow" id="flame">🔥</div>
-      <div class="cake-body">🎂</div>
+    <div class="letter-paper">
+      <div class="flower-header">🌸 🌻 🌹 💐</div>
+      <h2 class="letter-title">¡Feliz día Mami! 🎉</h2>
+      <p class="letter-body">
+        Te quiero muchísimo con todo mi corazón. Espero que este cumpleaños esté lleno de infinita alegría, risas, salud y momentos mágicos juntas.
+      </p>
+      <p class="letter-body">
+        Gracias por ser siempre mi mejor apoyo, por cuidarme y darme tu amor incondicional cada día.
+      </p>
+      <div class="letter-signature">Con todo mi amor,<br><b>tu hija Darcy ❤️</b></div>
     </div>
-    <h2 id="wish-title" class="green-glow-text">PIDE UN DESEO ✨</h2>
-    <div id="countdown-num">3</div>
   </div>
 
-  <!-- ESCENA 4 (45s - 90s): Sol Resplandeciente + Carta con tu firma -->
+  <!-- ESCENA 4 (Final): Explosión de Flores y Mariposas Animadas -->
   <div id="scene-4" class="scene hidden">
-    <div class="sun-glow">☀️</div>
-    <div class="letter-card">
-      <h2>¡Feliz día Mami! 🎉</h2>
-      <p>Te quiero muchísimo con todo mi corazón. Espero que este cumpleaños esté lleno de infinita alegría, risas, salud y momentos mágicos juntas.</p>
-      <p>Gracias por ser siempre mi mejor apoyo, por cuidarme y darme tu amor incondicional cada día.</p>
-      <div class="signature">Atte: tu hija Darcy ❤️</div>
+    <div class="flower-bloom-grid">
+      <span class="blooming-flower f1">🌸</span>
+      <span class="blooming-flower f2">🌻</span>
+      <span class="blooming-flower f3">🌺</span>
+      <span class="blooming-flower f4">🌷</span>
+      <span class="blooming-flower f5">🦋</span>
     </div>
-  </div>
-
-  <!-- ESCENA 5 (Final): Mariposa con puntos VERDES en movimiento -->
-  <div id="scene-5" class="scene hidden">
-    <div id="butterfly-canvas"></div>
-    <h1 class="glow-heading green-neon final-title">¡FELIZ CUMPLEAÑOS GRACIELA! ✨</h1>
+    <h1 class="final-heading">¡Te Amo Mami! ✨</h1>
   </div>
 
   <audio id="bg-music" src="mananitas.mp3.mpeg"></audio>
