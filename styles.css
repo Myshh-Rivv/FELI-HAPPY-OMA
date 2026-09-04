@@ -5,9 +5,9 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #030308;
-  color: #fff;
-  font-family: 'Montserrat', Arial, sans-serif;
+  background: linear-gradient(135deg, #ffd1dc 0%, #ffe3e8 50%, #fff0f5 100%);
+  color: #4a4a4a;
+  font-family: 'Quicksand', sans-serif;
   overflow: hidden;
   height: 100vh;
   display: flex;
@@ -15,8 +15,8 @@ body {
   align-items: center;
 }
 
-/* Fondo de Estrellas Luminosas */
-#stars-container {
+/* Fondo con partículas suaves de colores pastel */
+#floating-background {
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
@@ -24,97 +24,100 @@ body {
   pointer-events: none;
 }
 
-.star {
+.pastel-sparkle {
   position: absolute;
   border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 10px #ffffff, 0 0 20px #2ed573;
-  animation: starTwinkle 2s infinite alternate ease-in-out;
+  animation: floatUp 4s infinite linear;
 }
 
-@keyframes starTwinkle {
-  0% { opacity: 0.2; transform: scale(0.8); }
-  100% { opacity: 1; transform: scale(1.4); }
+@keyframes floatUp {
+  0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
 }
 
-/* Pantalla de Inicio y Regalo */
+/* Overlay Inicial y Carta Estilo Kawaii */
 #start-overlay {
   position: fixed;
   z-index: 999;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: #030308;
+  background: linear-gradient(135deg, #ffb6c1, #ffd1dc);
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.glow-title {
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #ffffff;
-  text-shadow: 0 0 10px #2ed573, 0 0 20px #2ed573, 0 0 30px #10ac84;
+.card-intro {
+  background: #ffffff;
+  padding: 35px 25px;
+  border-radius: 30px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25);
+  max-width: 360px;
+  width: 90%;
+  border: 4px solid #fff;
 }
 
-.sub-glow {
+.kawaii-pet {
+  font-size: 2.5rem;
+  margin: 0 5px;
+  display: inline-block;
+  animation: wiggle 2s infinite ease-in-out;
+}
+
+.bubbly-title {
+  font-family: 'Fredoka', cursive;
+  font-size: 2.3rem;
+  color: #ff5e7e;
+  margin: 10px 0 5px 0;
+  text-shadow: 2px 2px 0px #ffe3e8;
+}
+
+.subtitle-text {
   font-size: 1.1rem;
-  color: #ccc;
-  margin-top: 10px;
-  text-shadow: 0 0 5px rgba(255,255,255,0.5);
+  color: #888;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
-/* Regalo Neón */
-.gift-glow {
-  width: 120px;
-  height: 120px;
-  background: linear-gradient(135deg, #f1c40f, #e67e22);
-  border-radius: 15px;
-  margin: 30px 0;
+/* Envelope Animado */
+.envelope-wrapper {
+  font-size: 4rem;
+  margin: 15px 0;
   position: relative;
-  box-shadow: 0 0 30px #f1c40f, 0 0 50px #e67e22;
   cursor: pointer;
-  animation: giftBounce 1.5s infinite alternate ease-in-out;
+  animation: pulseEnvelope 1.8s infinite ease-in-out;
 }
 
-.gift-ribbon {
-  position: absolute;
-  top: 0; left: 50%;
-  width: 20px; height: 100%;
-  background: #e74c3c;
-  transform: translateX(-50%);
-  box-shadow: 0 0 10px #e74c3c;
-}
-
-@keyframes giftBounce {
-  from { transform: translateY(0) scale(1); }
-  to { transform: translateY(-15px) scale(1.05); }
+@keyframes pulseEnvelope {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1) rotate(2deg); }
 }
 
 #start-btn {
-  background: transparent;
-  border: 2px solid #2ed573;
+  background: #ff5e7e;
+  border: none;
   color: #fff;
-  padding: 12px 28px;
-  border-radius: 30px;
-  font-size: 1rem;
-  font-weight: bold;
-  box-shadow: 0 0 15px #2ed573;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: 0.3s;
+  box-shadow: 0 8px 20px rgba(255, 94, 126, 0.4);
+  transition: transform 0.2s, background 0.2s;
 }
 
 #start-btn:hover {
-  background: #2ed573;
-  color: #000;
-  box-shadow: 0 0 30px #2ed573;
+  transform: scale(1.05);
+  background: #ff4065;
 }
 
-/* Escenas generales */
+/* Escenas */
 .scene {
   position: absolute;
   z-index: 10;
   width: 90%;
-  max-width: 600px;
+  max-width: 500px;
   text-align: center;
 }
 
@@ -122,176 +125,154 @@ body {
   display: none !important;
 }
 
-/* Trompetas 3D */
-.trumpet-3d {
-  font-size: 5rem;
-  position: absolute;
-  top: 35vh;
-  filter: drop-shadow(0 0 20px #2ed573);
+/* Escena 1: Encabezado con Tipografía Cursiva / Bubbly */
+.cute-badge {
+  background: #ffecf0;
+  color: #ff5e7e;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 20px;
+  display: inline-block;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
 }
 
-.trumpet-3d.left-t {
-  left: 5%;
-  animation: moveTLeft 6s infinite alternate ease-in-out;
+.animated-heading {
+  font-family: 'Fredoka', cursive;
+  font-size: 3rem;
+  color: #ff5e7e;
+  margin: 0;
+  text-shadow: 3px 3px 0px #ffffff;
+  animation: bounceTitle 1.5s infinite ease-in-out alternate;
 }
 
-.trumpet-3d.right-t {
-  right: 5%;
-  animation: moveTRight 6s infinite alternate ease-in-out;
+.mom-name {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.6rem;
+  color: #6c5ce7;
+  margin: 10px 0 20px 0;
 }
 
-@keyframes moveTLeft {
-  0% { transform: translateX(0) rotate(-10deg) scale(1); }
-  100% { transform: translateX(80px) rotate(15deg) scale(1.2); }
+.floating-pets .bounce-item {
+  font-size: 3rem;
+  display: inline-block;
+  margin: 0 10px;
+  animation: floatBounce 2s infinite ease-in-out alternate;
 }
 
-@keyframes moveTRight {
-  0% { transform: translateX(0) rotate(10deg) scale(1); }
-  100% { transform: translateX(-80px) rotate(-15deg) scale(1.2); }
+.delay-1 { animation-delay: 0.3s; }
+.delay-2 { animation-delay: 0.6s; }
+
+@keyframes floatBounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-15px); }
 }
 
-.music-note {
-  position: absolute;
-  font-size: 2.5rem;
-  top: -20px;
-  animation: noteFloat 1.5s infinite ease-out;
-}
-
-.music-note.n2 {
-  animation-delay: 0.7s;
-}
-
-@keyframes noteFloat {
-  0% { opacity: 0; transform: translateY(0) scale(0.5); }
-  50% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-80px) scale(1.5); }
-}
-
-/* Títulos Glow Verde */
-.glow-heading {
-  font-size: 2.5rem;
-  font-weight: 900;
-  letter-spacing: 2px;
-}
-
-.green-neon {
-  color: #ffffff;
-  text-shadow: 0 0 10px #2ed573, 0 0 20px #2ed573, 0 0 40px #10ac84, 0 0 80px #10ac84;
-}
-
-.glow-subheading {
-  font-size: 2rem;
-  color: #fff;
-  text-shadow: 0 0 10px #ff4757, 0 0 20px #ff4757;
-}
-
-.neon-heart {
-  font-size: 4rem;
-  margin-top: 20px;
-  filter: drop-shadow(0 0 25px #ff4757);
-  animation: heartPulse 1s infinite alternate;
-}
-
-@keyframes heartPulse {
-  from { transform: scale(0.9); }
-  to { transform: scale(1.2); }
-}
-
-/* Torta y Pide un deseo */
-.cake-3d {
-  font-size: 5rem;
+/* Escena 2: Torta */
+.cake-container {
+  font-size: 6rem;
   position: relative;
   display: inline-block;
-  filter: drop-shadow(0 0 25px #2ed573);
+  margin-bottom: 10px;
 }
 
-.flame-glow {
+.candle-flame {
   position: absolute;
-  top: -35px; left: 50%;
+  top: -20px;
+  left: 50%;
   transform: translateX(-50%);
-  filter: drop-shadow(0 0 15px #ff9f43);
-  animation: flameFlicker 0.2s infinite alternate;
+  font-size: 2.5rem;
+  animation: flameWiggle 0.3s infinite alternate;
 }
 
-@keyframes flameFlicker {
-  from { transform: translateX(-50%) scale(0.9); }
-  to { transform: translateX(-50%) scale(1.2); }
+@keyframes flameWiggle {
+  from { transform: translateX(-50%) scale(0.9) rotate(-3deg); }
+  to { transform: translateX(-50%) scale(1.1) rotate(3deg); }
 }
 
-.green-glow-text {
-  font-size: 2.2rem;
-  color: #2ed573;
-  text-shadow: 0 0 15px #2ed573, 0 0 30px #10ac84;
-  margin-top: 15px;
+.wish-text {
+  font-family: 'Fredoka', cursive;
+  font-size: 2rem;
+  color: #ff5e7e;
 }
 
-#countdown-num {
+.countdown-bounce {
+  font-family: 'Fredoka', cursive;
   font-size: 4rem;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 20px #2ed573;
+  color: #6c5ce7;
 }
 
-/* Sol y Carta */
-.sun-glow {
-  font-size: 5rem;
-  filter: drop-shadow(0 0 30px #f1c40f);
-  animation: sunSpin 12s infinite linear;
+/* Escena 3: Carta y Flores */
+.letter-paper {
+  background: #ffffff;
+  border-radius: 25px;
+  padding: 30px 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 3px dashed #ffb6c1;
+  text-align: left;
 }
 
-@keyframes sunSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.flower-header {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
 }
 
-.letter-card {
-  background: rgba(15, 25, 20, 0.85);
-  border: 2px solid #2ed573;
-  box-shadow: 0 0 25px rgba(46, 213, 115, 0.4);
-  padding: 25px;
-  border-radius: 20px;
-  margin-top: 15px;
-  line-height: 1.6;
-}
-
-.letter-card h2 {
-  color: #2ed573;
-  text-shadow: 0 0 10px #2ed573;
+.letter-title {
+  font-family: 'Fredoka', cursive;
+  color: #ff5e7e;
+  font-size: 1.8rem;
   margin-top: 0;
 }
 
-.signature {
+.letter-body {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.letter-signature {
   text-align: right;
-  font-weight: bold;
-  color: #2ed573;
-  font-size: 1.2rem;
-  margin-top: 15px;
-  text-shadow: 0 0 10px #2ed573;
+  font-family: 'Pacifico', cursive;
+  color: #6c5ce7;
+  font-size: 1.3rem;
+  margin-top: 20px;
 }
 
-/* Mariposa Verde */
-#butterfly-canvas {
-  position: relative;
-  width: 280px;
-  height: 280px;
-  margin: 0 auto;
+/* Escena 4: Explosión Floral Final */
+.flower-bloom-grid {
+  font-size: 4rem;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-.green-particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  box-shadow: 0 0 8px currentColor;
-  animation: particleGlow 1.5s infinite alternate ease-in-out;
+.blooming-flower {
+  display: inline-block;
+  animation: bloom 1.2s infinite alternate ease-in-out;
 }
 
-@keyframes particleGlow {
-  from { transform: scale(0.8); opacity: 0.6; }
-  to { transform: scale(1.4); opacity: 1; }
+.f1 { animation-delay: 0.1s; }
+.f2 { animation-delay: 0.3s; }
+.f3 { animation-delay: 0.5s; }
+.f4 { animation-delay: 0.7s; }
+.f5 { animation-delay: 0.9s; }
+
+@keyframes bloom {
+  0% { transform: scale(0.6) rotate(-10deg); }
+  100% { transform: scale(1.3) rotate(10deg); }
 }
 
-.final-title {
-  font-size: 1.8rem;
-  margin-top: 25px;
+.final-heading {
+  font-family: 'Pacifico', cursive;
+  font-size: 3rem;
+  color: #ff5e7e;
+  text-shadow: 2px 2px 0px #ffffff;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
 }
