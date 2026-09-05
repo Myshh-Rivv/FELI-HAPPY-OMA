@@ -86,19 +86,19 @@ body {
         110px 130px,
         170px 180px,
         250px 220px;
-    animation: starsMove 35s linear infinite;
+    animation: starsMove 60s linear infinite;
 }
 
 .stars-2 {
     opacity: .5;
     transform: rotate(30deg);
-    animation-duration: 50s;
+    animation-duration: 90s;
 }
 
 .stars-3 {
     opacity: .3;
     transform: rotate(-25deg);
-    animation-duration: 70s;
+    animation-duration: 120s;
 }
 
 @keyframes starsMove {
@@ -150,7 +150,7 @@ body {
 }
 
 /* =====================================================
-   ESCENAS
+   ESCENAS (Transición ampliada a 1.8s)
 ===================================================== */
 
 .scene {
@@ -163,7 +163,7 @@ body {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity .9s ease, visibility .9s ease;
+    transition: opacity 1.8s ease, visibility 1.8s ease;
 }
 
 .scene.active {
@@ -222,7 +222,7 @@ body {
     border-radius: 50%;
     background: radial-gradient(circle, rgba(186,255,24,.22), transparent 70%);
     filter: blur(12px);
-    animation: giftGlow 2.5s ease-in-out infinite;
+    animation: giftGlow 3.5s ease-in-out infinite;
 }
 
 @keyframes giftGlow {
@@ -245,7 +245,7 @@ body {
     width: 230px;
     height: 190px;
     cursor: pointer;
-    animation: giftFloat 3s ease-in-out infinite;
+    animation: giftFloat 4s ease-in-out infinite;
     filter:
         drop-shadow(0 25px 30px rgba(0,0,0,.8))
         drop-shadow(0 0 25px rgba(186,255,24,.12));
@@ -372,7 +372,7 @@ body {
     border-radius: 40px;
     cursor: pointer;
     box-shadow: 0 0 20px rgba(186,255,24,.12);
-    transition: transform .25s ease, box-shadow .25s ease;
+    transition: transform .3s ease, box-shadow .3s ease;
 }
 
 .main-button:hover,
@@ -428,7 +428,8 @@ body {
     text-shadow:
         0 0 10px var(--lime),
         0 0 30px rgba(186,255,24,.55);
-    animation: letterArrive .7s cubic-bezier(.2,.8,.2,1) forwards;
+    /* Animación de llegada ampliada a 1.4s por letra */
+    animation: letterArrive 1.4s cubic-bezier(.2,.8,.2,1) forwards;
 }
 
 .happy-line span {
@@ -474,8 +475,8 @@ body {
         0 0 10px var(--lime),
         0 0 35px rgba(186,255,24,.7);
     opacity: 0;
-    animation: momAppear 1.2s ease forwards;
-    animation-delay: 3.8s;
+    animation: momAppear 2s ease forwards;
+    animation-delay: 8s; /* Aparece de forma muy clara tras las letras */
 }
 
 @keyframes momAppear {
@@ -497,8 +498,8 @@ body {
     font-size: .75rem;
     letter-spacing: 2px;
     opacity: 0;
-    animation: subtitleAppear 1s ease forwards;
-    animation-delay: 4.8s;
+    animation: subtitleAppear 1.8s ease forwards;
+    animation-delay: 10.5s;
 }
 
 @keyframes subtitleAppear {
@@ -532,7 +533,7 @@ body {
 .cake-svg {
     width: 100%;
     filter: drop-shadow(0 0 20px rgba(186,255,24,.18));
-    animation: cakeFloat 3s ease-in-out infinite;
+    animation: cakeFloat 4s ease-in-out infinite;
 }
 
 @keyframes cakeFloat {
@@ -567,16 +568,16 @@ body {
     text-shadow:
         0 0 15px var(--lime),
         0 0 40px rgba(186,255,24,.5);
-    animation: countdownPulse .8s ease-in-out infinite;
+    animation: countdownPulse 1.4s ease-in-out infinite;
 }
 
 @keyframes countdownPulse {
     0%,100% { transform: scale(1); }
-    50% { transform: scale(1.18); }
+    50% { transform: scale(1.15); }
 }
 
 .flame-off {
-    animation: flameDisappear .7s forwards;
+    animation: flameDisappear 1.2s forwards;
 }
 
 @keyframes flameDisappear {
@@ -645,11 +646,11 @@ body {
     font-size: 3rem;
     color: var(--lime);
     text-shadow: 0 0 20px var(--lime);
-    animation: symbolPulse 2s infinite;
+    animation: symbolPulse 3s infinite;
 }
 
 @keyframes symbolPulse {
-    50% { transform: scale(1.2); }
+    50% { transform: scale(1.15); }
 }
 
 .galaxy-center h2 {
@@ -824,10 +825,10 @@ body {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0);
     transition:
-        left 2.5s cubic-bezier(0.25, 1, 0.5, 1),
-        top 2.5s cubic-bezier(0.25, 1, 0.5, 1),
-        opacity 1.2s ease,
-        transform 2.5s ease;
+        left 4s cubic-bezier(0.25, 1, 0.5, 1),
+        top 4s cubic-bezier(0.25, 1, 0.5, 1),
+        opacity 2s ease,
+        transform 4s ease;
 }
 
 .firefly.forming {
@@ -836,7 +837,7 @@ body {
 }
 
 .firefly.glowing {
-    animation: butterflyPulse 2s ease-in-out infinite alternate;
+    animation: butterflyPulse 3s ease-in-out infinite alternate;
 }
 
 @keyframes butterflyPulse {
@@ -872,7 +873,7 @@ body {
     text-align: center;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 1.5s ease, transform 1.5s ease;
+    transition: opacity 2.5s ease, transform 2.5s ease;
     margin-top: 260px;
 }
 
