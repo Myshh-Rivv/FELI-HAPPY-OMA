@@ -1,7 +1,6 @@
-
 /* =========================================================
    EXPERIENCIA CUMPLEAÑOS - DACHI
-   VERSIÓN CON TIEMPOS PAUSADOS Y LECTURA CÓMODA
+   VERSIÓN OPTIMIZADA PARA MÓVIL (SIN LAG)
 ========================================================= */
 
 let experienceStarted = false;
@@ -23,9 +22,6 @@ window.startExperience = function () {
     const birthdayScene = document.getElementById("scene-birthday");
     const music = document.getElementById("bgMusic");
 
-    /* -----------------------------------------------
-       OCULTAR REGALO
-    ------------------------------------------------ */
     if (giftScene) {
         giftScene.classList.remove("active");
         setTimeout(() => {
@@ -33,31 +29,18 @@ window.startExperience = function () {
         }, 1500);
     }
 
-    /* -----------------------------------------------
-       MÚSICA
-    ------------------------------------------------ */
     if (music) {
         music.currentTime = 0;
         const promise = music.play();
         if (promise) {
-            promise
-                .then(() => {
-                    console.log("🎵 Mañanitas reproduciéndose");
-                })
-                .catch(() => {
-                    console.log("Audio bloqueado, pero continúa la experiencia.");
-                });
+            promise.catch(() => {
+                console.log("Audio bloqueado por el navegador.");
+            });
         }
     }
 
-    /* -----------------------------------------------
-       LUCES
-    ------------------------------------------------ */
     generateAmbientLights();
 
-    /* -----------------------------------------------
-       FELIZ CUMPLEAÑOS
-    ------------------------------------------------ */
     setTimeout(() => {
         if (birthdayScene) {
             birthdayScene.style.display = "flex";
@@ -74,11 +57,6 @@ window.startExperience = function () {
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("✅ Página cargada correctamente");
-
-    /* ---------------------------------------------
-       BOTÓN REGALO
-    ---------------------------------------------- */
     const button = document.getElementById("openGiftBtn");
     const box = document.getElementById("giftBox");
 
@@ -98,17 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* ---------------------------------------------
-       CARTA
-    ---------------------------------------------- */
     const openLetter = document.getElementById("openLetterBtn");
     if (openLetter) {
         openLetter.addEventListener("click", openLetterScene);
     }
 
-    /* ---------------------------------------------
-       CONTINUAR CARTA
-    ---------------------------------------------- */
     const closeLetter = document.getElementById("closeLetterBtn");
     if (closeLetter) {
         closeLetter.addEventListener("click", startFinalButterflies);
@@ -116,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================================================
-   LUCES DE FONDO
+   LUCES DE FONDO (Ajustadas según pantalla)
 ========================================================= */
 
 function generateAmbientLights() {
@@ -124,12 +96,15 @@ function generateAmbientLights() {
     if (!container) return;
 
     container.innerHTML = "";
+    // En pantallas pequeñas genera menos luces para no saturar
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? 40 : 80;
 
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < count; i++) {
         const light = document.createElement("div");
         light.className = "ambient-light";
 
-        const size = Math.random() * 5 + 2;
+        const size = Math.random() * 4 + 2;
         light.style.width = size + "px";
         light.style.height = size + "px";
 
@@ -144,7 +119,7 @@ function generateAmbientLights() {
 }
 
 /* =========================================================
-   LETRAS FELIZ CUMPLEAÑOS (Entrada más lenta)
+   LETRAS FELIZ CUMPLEAÑOS
 ========================================================= */
 
 function createBirthdayLetters() {
@@ -157,26 +132,21 @@ function createBirthdayLetters() {
     birthday.innerHTML = "";
 
     createWord("FELIZ", happy, 0);
-    createWord("CUMPLEAÑOS", birthday, 12); // Mayor separación entre palabras
+    createWord("CUMPLEAÑOS", birthday, 12);
 }
-
-/* =========================================================
-   CREAR PALABRA LETRA POR LETRA
-========================================================= */
 
 function createWord(word, container, delayStart) {
     for (let i = 0; i < word.length; i++) {
         const letter = document.createElement("span");
         letter.textContent = word[i];
 
-        const randomX = (Math.random() * 500 - 250);
-        const randomY = (Math.random() * 500 - 250);
-        const randomRotation = (Math.random() * 70 - 35);
+        const randomX = (Math.random() * 300 - 150);
+        const randomY = (Math.random() * 300 - 150);
+        const randomRotation = (Math.random() * 60 - 30);
 
         letter.style.setProperty("--start-x", randomX + "px");
         letter.style.setProperty("--start-y", randomY + "px");
         letter.style.setProperty("--rotation", randomRotation + "deg");
-        // Aumentado el tiempo entre cada letra a 0.45s
         letter.style.animationDelay = ((delayStart + i * 0.45) * 0.25) + "s";
 
         container.appendChild(letter);
@@ -184,7 +154,7 @@ function createWord(word, container, delayStart) {
 }
 
 /* =========================================================
-   TRANSICIÓN A TORTA (Ampliada a 22 segundos para disfrutar)
+   TRANSICIÓN A TORTA
 ========================================================= */
 
 setTimeout(() => {
@@ -206,10 +176,10 @@ setTimeout(() => {
             startCountdown();
         }, 300);
     }, 1800);
-}, 22000); // Antes 11s, ahora 22s
+}, 22000);
 
 /* =========================================================
-   CUENTA REGRESIVA (Más pausada)
+   CUENTA REGRESIVA
 ========================================================= */
 
 function startCountdown() {
@@ -226,7 +196,6 @@ function startCountdown() {
     let count = 5;
     number.textContent = count;
 
-    // Cambia cada 1.8 segundos en lugar de 1 segundo
     const timer = setInterval(() => {
         count--;
 
@@ -255,7 +224,6 @@ function startCountdown() {
 
         createGalaxy();
 
-        // Tiempo de espera para admirar la torta apagada antes de pasar a la galaxia
         setTimeout(() => {
             const cake = document.getElementById("scene-cake");
             const galaxy = document.getElementById("scene-galaxy");
@@ -269,7 +237,7 @@ function startCountdown() {
                 galaxy.style.display = "flex";
                 galaxy.classList.add("active");
             }, 1800);
-        }, 4500); // Antes 2.5s, ahora 4.5s
+        }, 4500);
     }, 1800);
 }
 
@@ -282,13 +250,15 @@ function createGalaxy() {
     if (!galaxy) return;
 
     galaxy.innerHTML = "";
+    const isMobile = window.innerWidth < 768;
+    const starCount = isMobile ? 70 : 140;
 
-    for (let i = 0; i < 180; i++) {
+    for (let i = 0; i < starCount; i++) {
         const star = document.createElement("div");
         star.className = "galaxy-star";
 
-        const radius = 30 + Math.random() * 230;
-        const duration = 8 + Math.random() * 12; // Rotación más suave
+        const radius = 20 + Math.random() * (isMobile ? 140 : 220);
+        const duration = 8 + Math.random() * 12;
 
         star.style.setProperty("--radius", radius + "px");
         star.style.setProperty("--duration", duration + "s");
@@ -345,7 +315,7 @@ function startFinalButterflies() {
 }
 
 /* =========================================================
-   MARIPOSA DE LUCIÉRNAGAS PAUSADA
+   MARIPOSA DE LUCIÉRNAGAS (OPTIMIZADA GPU Y MÓVIL)
 ========================================================= */
 
 function createFireflyButterfly() {
@@ -356,84 +326,60 @@ function createFireflyButterfly() {
 
     container.innerHTML = "";
 
-    const points = [];
-    const totalParticles = 160;
+    const isMobile = window.innerWidth < 768;
+    // Reducimos la cantidad de partículas en móvil para fluido perfecto
+    const totalParticles = isMobile ? 75 : 150;
+    const scaleFactor = isMobile ? 22 : 36; // Escala adaptada a la pantalla
 
-    /* ---------------------------------------------
-       1. ALAS
-    ---------------------------------------------- */
+    const points = [];
+
+    /* 1. ALAS */
     for (let i = 0; i < totalParticles; i++) {
         const t = (i / totalParticles) * Math.PI * 2 * 2;
         const r = Math.exp(Math.cos(t)) - 2 * Math.cos(4 * t) + Math.pow(Math.sin(t / 12), 5);
 
-        const x = Math.sin(t) * r * 38;
-        const y = -Math.cos(t) * r * 38 - 40;
+        const x = Math.sin(t) * r * scaleFactor;
+        const y = -Math.cos(t) * r * scaleFactor - (isMobile ? 20 : 40);
 
-        points.push({
-            x: 50 + (x / window.innerWidth) * 100,
-            y: 45 + (y / window.innerHeight) * 100
-        });
+        points.push({ x, y });
     }
 
-    /* ---------------------------------------------
-       2. CUERPO Y ANTENAS
-    ---------------------------------------------- */
-    for (let i = 0; i < 15; i++) {
-        points.push({
-            x: 50,
-            y: 38 + (i * 0.9)
-        });
+    /* 2. CUERPO Y ANTENAS */
+    const bodyPoints = isMobile ? 8 : 14;
+    for (let i = 0; i < bodyPoints; i++) {
+        points.push({ x: 0, y: -20 + (i * 1.5) });
     }
 
-    for (let i = 0; i < 8; i++) {
-        points.push({
-            x: 50 - (i * 0.6),
-            y: 37 - (i * 0.8)
-        });
-    }
-
-    for (let i = 0; i < 8; i++) {
-        points.push({
-            x: 50 + (i * 0.6),
-            y: 37 - (i * 0.8)
-        });
-    }
-
-    /* ---------------------------------------------
-       CREAR ELEMENTOS DE LUZ
-    ---------------------------------------------- */
+    /* CREAR Y POSICIONAR USANDO TRASLACIÓN GPU */
     points.forEach((point, index) => {
         const firefly = document.createElement("div");
         firefly.className = "firefly";
 
-        firefly.style.left = "50%";
-        firefly.style.top = "50%";
+        // Posición inicial (centro)
+        firefly.style.transform = `translate3d(-50%, -50%, 0) scale(0)`;
+        firefly.style.transitionDelay = (index * 0.02) + "s";
 
-        // Se forma gradualmente
-        firefly.style.transitionDelay = (index * 0.025) + "s";
-
-        firefly.dataset.x = point.x;
-        firefly.dataset.y = point.y;
+        // Guardamos las coordenadas relativas en atributos data
+        firefly.dataset.tx = point.x;
+        firefly.dataset.ty = point.y;
 
         container.appendChild(firefly);
     });
 
-    /* ---------------------------------------------
-       ANIMACIÓN: ARMAR MARIPOSA PAUSADAMENTE
-    ---------------------------------------------- */
+    /* ANIMACIÓN A POSICIÓN DE MARIPOSA */
     setTimeout(() => {
         const fireflies = document.querySelectorAll(".firefly");
 
         fireflies.forEach(firefly => {
-            firefly.style.left = firefly.dataset.x + "%";
-            firefly.style.top = firefly.dataset.y + "%";
+            const tx = firefly.dataset.tx;
+            const ty = firefly.dataset.ty;
+            // Usar translate3d fuerza el uso del procesador gráfico (GPU) en móviles
+            firefly.style.transform = `translate3d(calc(-50% + ${tx}px), calc(-50% + ${ty}px), 0) scale(1.1)`;
             firefly.classList.add("forming");
         });
-    }, 600);
+    }, 400);
 
-    /* ---------------------------------------------
-       ANIMACIÓN: PULSACIÓN Y TEXTO FINAL
-    ---------------------------------------------- */
+    /* ANIMACIÓN DE PULSACIÓN Y TEXTO */
     setTimeout(() => {
         const fireflies = document.querySelectorAll(".firefly");
         fireflies.forEach(firefly => {
@@ -443,5 +389,5 @@ function createFireflyButterfly() {
         if (text) {
             text.classList.add("visible");
         }
-    }, 5500); // Antes 2.8s, ahora 5.5s para un cierre suave
+    }, 4800);
 }
