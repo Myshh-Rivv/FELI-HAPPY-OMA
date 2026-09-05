@@ -1,6 +1,7 @@
-/* =========================================================
+
+/* =====================================================
    ELEMENTOS
-========================================================= */
+===================================================== */
 
 const intro = document.getElementById("intro");
 const trumpetScene = document.getElementById("trumpetScene");
@@ -8,164 +9,92 @@ const birthdayScene = document.getElementById("birthdayScene");
 const cakeScene = document.getElementById("cakeScene");
 const galaxyScene = document.getElementById("galaxyScene");
 const letterScene = document.getElementById("letterScene");
-const finalScene = document.getElementById("finalScene");
-
-const music = document.getElementById("birthdayMusic");
+const butterflyScene = document.getElementById("butterflyScene");
 
 const openGift = document.getElementById("openGift");
+const readLetter = document.getElementById("readLetter");
+const closeLetter = document.getElementById("closeLetter");
 
-const giftLid = document.querySelector(".gift-lid");
+const music = document.getElementById("bgMusic");
 
-const birthdayText =
-    document.getElementById("letterAnimation");
-
-const countdown =
-    document.getElementById("countdown");
-
-const flame =
-    document.getElementById("flame");
-
-const wishMessage =
-    document.getElementById("wishMessage");
-
-const readLetter =
-    document.getElementById("readLetter");
-
-const letter =
-    document.getElementById("letter");
-
-const continueLetter =
-    document.getElementById("continueLetter");
+const countdown = document.getElementById("countdown");
+const wishText = document.getElementById("wishText");
+const flame = document.getElementById("flame");
 
 
-/* =========================================================
-   CAMBIO DE ESCENAS
-========================================================= */
+/* =====================================================
+   CANVAS ESPACIAL
+===================================================== */
 
-function showScene(scene) {
+const spaceCanvas = document.getElementById("spaceCanvas");
+const ctx = spaceCanvas.getContext("2d");
 
-    document
-        .querySelectorAll(".screen")
-        .forEach(s => {
-
-            s.classList.remove("active");
-
-        });
-
-    scene.classList.add("active");
-}
-
-
-/* =========================================================
-   EFECTOS GENERALES
-========================================================= */
-
-const effectsCanvas =
-    document.getElementById("effectsCanvas");
-
-const ctx =
-    effectsCanvas.getContext("2d");
-
-let particles = [];
+let W;
+let H;
 
 function resizeCanvas() {
 
-    effectsCanvas.width =
-        window.innerWidth * devicePixelRatio;
+    W = spaceCanvas.width = window.innerWidth * devicePixelRatio;
+    H = spaceCanvas.height = window.innerHeight * devicePixelRatio;
 
-    effectsCanvas.height =
-        window.innerHeight * devicePixelRatio;
+    spaceCanvas.style.width = window.innerWidth + "px";
+    spaceCanvas.style.height = window.innerHeight + "px";
 
-    ctx.scale(
+    ctx.setTransform(
         devicePixelRatio,
-        devicePixelRatio
+        0,
+        0,
+        devicePixelRatio,
+        0,
+        0
     );
 }
 
 resizeCanvas();
 
-window.addEventListener(
-    "resize",
-    resizeCanvas
-);
+window.addEventListener("resize", resizeCanvas);
 
 
-/* =========================================================
-   PARTICULAS
-========================================================= */
+/* =====================================================
+   ESTRELLAS / LUCES
+===================================================== */
 
-function createParticle(
-    x,
-    y,
-    color,
-    speed = 5
-) {
+const stars = [];
 
-    particles.push({
+function createStars() {
 
-        x,
-        y,
+    stars.length = 0;
 
-        vx:
-            (Math.random() - .5)
-            * speed,
+    const amount =
+        window.innerWidth < 600
+            ? 130
+            : 220;
 
-        vy:
-            (Math.random() - .5)
-            * speed,
+    for (let i = 0; i < amount; i++) {
 
-        size:
-            Math.random() * 4 + 1,
+        stars.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
 
-        life: 1,
+            radius:
+                Math.random() * 1.6 + .2,
 
-        color
+            alpha:
+                Math.random() * .7 + .15,
 
-    });
-}
+            speed:
+                Math.random() * .015 + .004,
 
-
-function particleExplosion(
-    x,
-    y,
-    amount = 150
-) {
-
-    const colors = [
-        "#ffd84d",
-        "#fff5a6",
-        "#ffffff",
-        "#ff9d00",
-        "#ff5d22"
-    ];
-
-    for (
-        let i = 0;
-        i < amount;
-        i++
-    ) {
-
-        createParticle(
-
-            x,
-            y,
-
-            colors[
-                Math.floor(
-                    Math.random()
-                    * colors.length
-                )
-            ],
-
-            12
-
-        );
-
+            phase:
+                Math.random() * Math.PI * 2
+        });
     }
 }
 
+createStars();
 
-function animateParticles() {
+
+function drawStars(time) {
 
     ctx.clearRect(
         0,
@@ -174,464 +103,530 @@ function animateParticles() {
         window.innerHeight
     );
 
-    particles.forEach(
-        (p, index) => {
+    for (const star of stars) {
 
-            p.x += p.vx;
+        const pulse =
+            Math.sin(
+                time * star.speed +
+                star.phase
+            ) * .5 + .5;
 
-            p.y += p.vy;
+        const alpha =
+            star.alpha * (.4 + pulse * .6);
 
-            p.vy += .04;
+        ctx.beginPath();
 
-            p.life -= .012;
+        ctx.arc(
+            star.x,
+            star.y,
+            star.radius,
+            0,
+            Math.PI * 2
+        );
 
-            ctx.globalAlpha =
-                Math.max(
-                    p.life,
-                    0
-                );
+        ctx.fillStyle =
+            `rgba(150,255,215,${alpha})`;
 
-            ctx.fillStyle =
-                p.color;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "#00ff9d";
 
-            ctx.shadowBlur = 15;
+        ctx.fill();
+    }
 
-            ctx.shadowColor =
-                p.color;
-
-            ctx.beginPath();
-
-            ctx.arc(
-                p.x,
-                p.y,
-                p.size,
-                0,
-                Math.PI * 2
-            );
-
-            ctx.fill();
-
-            if (p.life <= 0) {
-
-                particles.splice(
-                    index,
-                    1
-                );
-
-            }
-
-        }
-    );
-
-    ctx.globalAlpha = 1;
-
-    requestAnimationFrame(
-        animateParticles
-    );
+    requestAnimationFrame(drawStars);
 }
 
-animateParticles();
+requestAnimationFrame(drawStars);
 
 
-/* =========================================================
+/* =====================================================
+   CAMBIO DE ESCENA
+===================================================== */
+
+function showScene(scene) {
+
+    document.querySelectorAll(".screen")
+        .forEach(s => s.classList.remove("active"));
+
+    scene.classList.add("active");
+}
+
+
+/* =====================================================
    ABRIR REGALO
-========================================================= */
+===================================================== */
 
-let experienceStarted = false;
+openGift.addEventListener("click", () => {
 
-openGift.addEventListener(
-    "click",
-    startExperience
-);
+    // Intentar reproducir audio
+    music.currentTime = 0;
 
+    music.play().catch(() => {
+        console.log("El navegador bloqueó el audio.");
+    });
 
-function startExperience() {
+    // Explosión inicial
+    launchLights();
 
-    if (experienceStarted)
-        return;
-
-    experienceStarted = true;
-
-    /*
-       Abrimos la tapa
-    */
-
-    giftLid.classList.add("open");
-
-
-    /*
-       Explosión inicial
-    */
+    // Abrir regalo visualmente
+    document.querySelector(".gift").style.transform =
+        "translateY(-30px) scale(1.15) rotateX(20deg)";
 
     setTimeout(() => {
 
-        particleExplosion(
-            window.innerWidth / 2,
-            window.innerHeight / 2,
-            220
-        );
+        showScene(trumpetScene);
 
     }, 500);
 
-
     /*
-       Música
-    */
-
-    music.volume = .8;
-
-    music.currentTime = 0;
-
-    music.play()
-        .catch(() => {
-            console.log(
-                "El navegador bloqueó el audio."
-            );
-        });
-
-
-    /*
-       Cambiamos a trompetas
+       A los 8 segundos termina la sección
+       de las trompetas.
     */
 
     setTimeout(() => {
 
-        showScene(
-            trumpetScene
-        );
-
-        createGoldenParticles();
-
-    }, 900);
-
-
-    /*
-       EXACTAMENTE alrededor
-       del segundo 8
-    */
-
-    setTimeout(() => {
-
-        transitionToBirthday();
+        showBirthday();
 
     }, 8000);
+});
 
-}
 
+/* =====================================================
+   LUCES DE APERTURA
+===================================================== */
 
-/* =========================================================
-   PARTICULAS DORADAS
-========================================================= */
+function launchLights() {
 
-function createGoldenParticles() {
+    for (let i = 0; i < 130; i++) {
 
-    for (
-        let i = 0;
-        i < 100;
-        i++
-    ) {
+        const particle =
+            document.createElement("div");
+
+        particle.style.position = "fixed";
+
+        particle.style.left = "50%";
+        particle.style.top = "52%";
+
+        particle.style.width =
+            Math.random() * 5 + 2 + "px";
+
+        particle.style.height =
+            particle.style.width;
+
+        particle.style.borderRadius = "50%";
+
+        particle.style.background =
+            i % 3 === 0
+                ? "#ffe58b"
+                : "#5dffc5";
+
+        particle.style.boxShadow =
+            "0 0 12px currentColor";
+
+        particle.style.zIndex = "100";
+
+        particle.style.pointerEvents = "none";
+
+        document.body.appendChild(particle);
+
+        const angle =
+            Math.random() * Math.PI * 2;
+
+        const distance =
+            150 + Math.random() * 500;
+
+        const x =
+            Math.cos(angle) * distance;
+
+        const y =
+            Math.sin(angle) * distance;
+
+        particle.animate(
+
+            [
+                {
+                    transform:
+                        "translate(-50%, -50%) scale(.2)",
+                    opacity: 0
+                },
+
+                {
+                    transform:
+                        "translate(-50%, -50%) scale(1)",
+                    opacity: 1,
+                    offset: .15
+                },
+
+                {
+                    transform:
+                        `translate(calc(-50% + ${x}px),
+                         calc(-50% + ${y}px))
+                         scale(.1)`,
+
+                    opacity: 0
+                }
+            ],
+
+            {
+                duration:
+                    900 + Math.random() * 1100,
+
+                easing: "cubic-bezier(.1,.7,.2,1)"
+            }
+        );
 
         setTimeout(() => {
-
-            createParticle(
-
-                Math.random()
-                * window.innerWidth,
-
-                Math.random()
-                * window.innerHeight,
-
-                Math.random() > .5
-                    ? "#ffd84d"
-                    : "#ffffff",
-
-                2
-
-            );
-
-        }, Math.random() * 5000);
-
+            particle.remove();
+        }, 2200);
     }
 }
 
 
-/* =========================================================
-   TRANSICIÓN FELIZ CUMPLEAÑOS
-========================================================= */
+/* =====================================================
+   FELIZ CUMPLEAÑOS
+===================================================== */
 
-function transitionToBirthday() {
+function showBirthday() {
 
-    showScene(
-        birthdayScene
-    );
-
-    createBirthdayLetters();
-
+    showScene(birthdayScene);
 
     /*
-       Después de aparecer
-       todas las letras,
-       hacemos explosión
+       Esperamos a que termine la aparición
+       de todas las letras.
+
+       Después:
+       TEXTO → EXPLOSIÓN → TORTA
     */
 
     setTimeout(() => {
 
-        explodeBirthdayText();
+        explodeBirthday();
 
-    }, 5500);
-
+    }, 5200);
 }
 
 
-function createBirthdayLetters() {
-
-    birthdayText.innerHTML = "";
-
-
-    const text =
-        "FELIZ CUMPLEAÑOS MAMIII!!";
-
-
-    const colors = [
-        "#ffd84d",
-        "#ffffff",
-        "#ffb52e",
-        "#ffe99a",
-        "#ffffff",
-        "#ffc83d"
-    ];
-
-
-    [...text].forEach(
-        (char, index) => {
-
-            const span =
-                document.createElement(
-                    "span"
-                );
-
-            span.className =
-                "birthday-letter";
-
-
-            if (char === " ") {
-
-                span.innerHTML =
-                    "&nbsp;";
-
-            } else {
-
-                span.textContent =
-                    char;
-
-            }
-
-
-            span.style.color =
-                colors[
-                    index %
-                    colors.length
-                ];
-
-
-            /*
-               Cada letra entra
-               una después de otra
-            */
-
-            span.style.animationDelay =
-                `${index * 0.16}s`;
-
-
-            birthdayText.appendChild(
-                span
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
+/* =====================================================
    EXPLOSIÓN DEL TEXTO
-========================================================= */
+===================================================== */
 
-function explodeBirthdayText() {
+function explodeBirthday() {
 
-    const rect =
-        birthdayText.getBoundingClientRect();
+    const letters =
+        document.querySelectorAll(".letter");
 
+    letters.forEach((letter, index) => {
 
-    particleExplosion(
+        const rect =
+            letter.getBoundingClientRect();
 
-        rect.left
-        + rect.width / 2,
+        const centerX =
+            rect.left + rect.width / 2;
 
-        rect.top
-        + rect.height / 2,
+        const centerY =
+            rect.top + rect.height / 2;
 
-        280
+        letter.style.position = "fixed";
+        letter.style.left = centerX + "px";
+        letter.style.top = centerY + "px";
+        letter.style.margin = "0";
 
-    );
+        const angle =
+            Math.random() * Math.PI * 2;
 
+        const distance =
+            100 + Math.random() * 250;
 
-    birthdayText.style.transition =
-        "all .7s ease";
+        const x =
+            Math.cos(angle) * distance;
 
-    birthdayText.style.transform =
-        "scale(1.5)";
+        const y =
+            Math.sin(angle) * distance;
 
-    birthdayText.style.opacity =
-        "0";
+        letter.animate(
 
+            [
+                {
+                    transform:
+                        "translate(-50%,-50%) scale(1)",
+                    opacity: 1
+                },
+
+                {
+                    transform:
+                        `translate(
+                            calc(-50% + ${x}px),
+                            calc(-50% + ${y}px)
+                         )
+                         rotate(${Math.random() * 500 - 250}deg)
+                         scale(0)`,
+
+                    opacity: 0
+                }
+            ],
+
+            {
+                duration: 1000,
+                delay: index * 25,
+                easing: "cubic-bezier(.1,.7,.2,1)",
+                fill: "forwards"
+            }
+        );
+    });
+
+    // Partículas verdes y doradas
+    birthdayExplosion();
 
     setTimeout(() => {
 
-        showScene(
-            cakeScene
-        );
+        showScene(cakeScene);
 
         startCakeCountdown();
 
-    }, 900);
-
+    }, 1200);
 }
 
 
-/* =========================================================
-   CUENTA REGRESIVA DE LA TORTA
-========================================================= */
+/* =====================================================
+   EXPLOSIÓN DEL CUMPLEAÑOS
+===================================================== */
+
+function birthdayExplosion() {
+
+    const colors = [
+        "#00ff9d",
+        "#7affca",
+        "#ffe28a",
+        "#ffffff"
+    ];
+
+    confetti({
+
+        particleCount: 180,
+
+        spread: 150,
+
+        startVelocity: 45,
+
+        gravity: .7,
+
+        scalar: .8,
+
+        origin: {
+            x: .5,
+            y: .48
+        },
+
+        colors
+    });
+}
+
+
+/* =====================================================
+   CUENTA REGRESIVA
+===================================================== */
 
 function startCakeCountdown() {
 
     let number = 5;
 
-    countdown.textContent =
-        number;
+    countdown.textContent = number;
 
-    wishMessage.textContent =
-        "PIDE UN DESEO...";
+    wishText.textContent =
+        "SOPLA LA VELA";
 
-
-    const interval =
+    const timer =
         setInterval(() => {
 
             number--;
 
-            if (number >= 1) {
+            if (number > 0) {
 
                 countdown.textContent =
                     number;
 
-                /*
-                   pequeño destello
-                */
+            } else {
 
-                particleExplosion(
+                clearInterval(timer);
 
-                    window.innerWidth / 2,
+                countdown.textContent = "";
 
-                    window.innerHeight / 2,
+                wishText.textContent =
+                    "¡DESEO CONCEDIDO!";
 
-                    15
+                // Apagar vela
+                flame.style.opacity = "0";
 
-                );
+                flame.style.transform =
+                    "translateX(-50%) scale(0)";
 
-            }
+                // Después de apagar la vela
+                setTimeout(() => {
 
+                    showGalaxy();
 
-            if (number === 0) {
-
-                clearInterval(interval);
-
-                countdown.textContent =
-                    "";
-
-                blowCandle();
-
+                }, 1800);
             }
 
         }, 1000);
-
 }
 
 
-/* =========================================================
-   APAGAR VELA
-========================================================= */
+/* =====================================================
+   GALAXIA
+===================================================== */
 
-function blowCandle() {
+function showGalaxy() {
 
-    flame.style.transition =
-        "all .5s ease";
+    showScene(galaxyScene);
 
-    flame.style.transform =
-        "scale(0) rotate(-70deg)";
-
-    flame.style.opacity =
-        "0";
-
-
-    wishMessage.textContent =
-        "¡DESEO CONCEDIDO!";
-
-
-    particleExplosion(
-
-        window.innerWidth / 2,
-
-        window.innerHeight / 2,
-
-        180
-
-    );
-
-
-    /*
-       Después de apagar
-       la vela aparece galaxia
-    */
+    createGalaxyParticles();
 
     setTimeout(() => {
 
-        showGalaxy();
+        readLetter.style.opacity = "1";
 
-    }, 1800);
-
+    }, 1500);
 }
 
 
-/* =========================================================
-   GALAXIA
-========================================================= */
+/* =====================================================
+   PARTÍCULAS DE GALAXIA
+===================================================== */
 
-const galaxyCanvas =
-    document.getElementById(
-        "galaxyCanvas"
-    );
+function createGalaxyParticles() {
 
-const galaxyCtx =
-    galaxyCanvas.getContext(
-        "2d"
-    );
+    for (let i = 0; i < 100; i++) {
 
-let galaxyStars = [];
+        const particle =
+            document.createElement("div");
 
-let galaxyAnimation;
+        particle.style.position = "absolute";
+
+        particle.style.left = "50%";
+        particle.style.top = "50%";
+
+        particle.style.width =
+            Math.random() * 3 + 1 + "px";
+
+        particle.style.height =
+            particle.style.width;
+
+        particle.style.borderRadius = "50%";
+
+        particle.style.background =
+            i % 4 === 0
+                ? "#ffffff"
+                : "#55ffc0";
+
+        particle.style.boxShadow =
+            "0 0 10px #00ff9d";
+
+        particle.style.pointerEvents =
+            "none";
+
+        galaxyScene.appendChild(particle);
+
+        const angle =
+            Math.random() * Math.PI * 2;
+
+        const radius =
+            30 + Math.random() * 300;
+
+        const x =
+            Math.cos(angle) * radius;
+
+        const y =
+            Math.sin(angle) * radius * .65;
+
+        particle.animate(
+
+            [
+                {
+                    transform:
+                        "translate(-50%,-50%) scale(0)"
+                },
+
+                {
+                    transform:
+                        `translate(
+                            calc(-50% + ${x}px),
+                            calc(-50% + ${y}px)
+                         )
+                         scale(1)`
+                }
+            ],
+
+            {
+                duration:
+                    1500 + Math.random() * 2000,
+
+                delay:
+                    Math.random() * 1500,
+
+                fill: "forwards",
+
+                easing: "ease-out"
+            }
+        );
+    }
+}
 
 
-function resizeGalaxy() {
+/* =====================================================
+   ABRIR CARTA
+===================================================== */
 
-    galaxyCanvas.width =
-        window.innerWidth
-        * devicePixelRatio;
+readLetter.addEventListener("click", () => {
 
-    galaxyCanvas.height =
-        window.innerHeight
-        * devicePixelRatio;
+    showScene(letterScene);
 
-    galaxyCtx.setTransform(
+});
+
+
+/* =====================================================
+   CERRAR CARTA
+===================================================== */
+
+closeLetter.addEventListener("click", () => {
+
+    showScene(butterflyScene);
+
+    startButterflyShow();
+
+});
+
+
+/* =====================================================
+   MARIPOSA DE LUCIÉRNAGAS
+===================================================== */
+
+const butterflyCanvas =
+    document.getElementById("butterflyCanvas");
+
+const bctx =
+    butterflyCanvas.getContext("2d");
+
+let BW;
+let BH;
+
+function resizeButterflyCanvas() {
+
+    BW =
+        butterflyCanvas.width =
+        window.innerWidth * devicePixelRatio;
+
+    BH =
+        butterflyCanvas.height =
+        window.innerHeight * devicePixelRatio;
+
+    butterflyCanvas.style.width =
+        window.innerWidth + "px";
+
+    butterflyCanvas.style.height =
+        window.innerHeight + "px";
+
+    bctx.setTransform(
         devicePixelRatio,
         0,
         0,
@@ -639,323 +634,327 @@ function resizeGalaxy() {
         0,
         0
     );
-
 }
 
-resizeGalaxy();
+resizeButterflyCanvas();
 
 window.addEventListener(
     "resize",
-    resizeGalaxy
+    resizeButterflyCanvas
 );
 
 
-function createGalaxy() {
+/* =====================================================
+   PUNTOS DE LA MARIPOSA
+===================================================== */
 
-    galaxyStars = [];
+let butterflies = [];
 
+function generateButterflyPoints() {
+
+    const points = [];
+
+    const centerX =
+        window.innerWidth / 2;
+
+    const centerY =
+        window.innerHeight * .43;
+
+    const scale =
+        Math.min(
+            window.innerWidth,
+            window.innerHeight
+        ) * .004;
+
+    /*
+       Ecuación paramétrica aproximada
+       para construir las alas.
+    */
 
     for (
-        let i = 0;
-        i < 700;
-        i++
+        let t = 0;
+        t < Math.PI * 12;
+        t += .025
     ) {
 
-        const angle =
-            Math.random()
-            * Math.PI * 2;
-
-
-        const radius =
-            Math.pow(
-                Math.random(),
-                .65
-            )
-            * Math.max(
-                window.innerWidth,
-                window.innerHeight
+        const x =
+            Math.sin(t) *
+            (
+                Math.exp(Math.cos(t))
+                - 2 * Math.cos(4 * t)
+                - Math.pow(
+                    Math.sin(t / 12),
+                    5
+                )
             );
 
+        const y =
+            -Math.cos(t) *
+            (
+                Math.exp(Math.cos(t))
+                - 2 * Math.cos(4 * t)
+                - Math.pow(
+                    Math.sin(t / 12),
+                    5
+                )
+            );
 
-        galaxyStars.push({
+        points.push({
 
-            angle,
+            x:
+                centerX + x * scale * 20,
 
-            radius,
-
-            speed:
-                .0005
-                + Math.random() * .0015,
-
-            size:
-                Math.random() * 1.8
-                + .2,
-
-            brightness:
-                Math.random()
+            y:
+                centerY + y * scale * 20
 
         });
-
     }
 
+    return points;
 }
 
 
-function animateGalaxy() {
+/* =====================================================
+   CREAR LUCIÉRNAGAS
+===================================================== */
 
-    galaxyCtx.clearRect(
+function startButterflyShow() {
 
+    butterflies = [];
+
+    const points =
+        generateButterflyPoints();
+
+    const amount =
+        window.innerWidth < 600
+            ? 250
+            : 420;
+
+    for (let i = 0; i < amount; i++) {
+
+        const target =
+            points[
+                i % points.length
+            ];
+
+        butterflies.push({
+
+            x:
+                Math.random() *
+                window.innerWidth,
+
+            y:
+                window.innerHeight +
+                Math.random() * 300,
+
+            targetX: target.x,
+            targetY: target.y,
+
+            size:
+                Math.random() * 2.8 + 1,
+
+            speed:
+                .005 +
+                Math.random() * .018,
+
+            phase:
+                Math.random() * Math.PI * 2,
+
+            delay:
+                Math.random() * 3000
+        });
+    }
+
+    animateButterflies();
+
+    /*
+       Después de 4.5 segundos las
+       mariposas ya formaron la figura.
+    */
+
+    setTimeout(() => {
+
+        disperseButterflies();
+
+    }, 7500);
+}
+
+
+/* =====================================================
+   ANIMACIÓN DE MARIPOSAS
+===================================================== */
+
+let butterflyStart =
+    performance.now();
+
+function animateButterflies(time) {
+
+    bctx.clearRect(
         0,
         0,
         window.innerWidth,
         window.innerHeight
-
     );
 
+    const elapsed =
+        time - butterflyStart;
 
-    const cx =
-        window.innerWidth / 2;
+    butterflies.forEach((b, index) => {
 
-    const cy =
-        window.innerHeight / 2;
+        const delay =
+            b.delay;
 
-
-    galaxyStars.forEach(
-        star => {
-
-            star.angle +=
-                star.speed;
-
-
-            /*
-               ESPIRAL
-            */
-
-            const spiral =
-                star.angle
-                + star.radius
-                * .0025;
-
-
-            const x =
-                cx
-                + Math.cos(spiral)
-                * star.radius;
-
-            const y =
-                cy
-                + Math.sin(spiral)
-                * star.radius
-                * .55;
-
-
-            const alpha =
-                Math.max(
-                    0,
-                    1 -
-                    star.radius /
-                    (window.innerWidth * .75)
-                );
-
-
-            galaxyCtx.globalAlpha =
-                alpha;
-
-
-            galaxyCtx.fillStyle =
-                Math.random() > .97
-                    ? "#ffffff"
-                    : "#8f86ff";
-
-
-            galaxyCtx.shadowBlur =
-                8;
-
-            galaxyCtx.shadowColor =
-                "#7770ff";
-
-
-            galaxyCtx.beginPath();
-
-            galaxyCtx.arc(
-
-                x,
-                y,
-
-                star.size,
-
+        const progress =
+            Math.max(
                 0,
-                Math.PI * 2
-
+                Math.min(
+                    1,
+                    (elapsed - delay) / 3500
+                )
             );
 
-            galaxyCtx.fill();
+        const eased =
+            1 - Math.pow(
+                1 - progress,
+                3
+            );
 
-        }
-    );
+        b.x +=
+            (b.targetX - b.x)
+            * b.speed
+            * eased
+            * 2;
 
+        b.y +=
+            (b.targetY - b.y)
+            * b.speed
+            * eased
+            * 2;
 
-    galaxyCtx.globalAlpha = 1;
+        const movement =
+            Math.sin(
+                time * .002 +
+                b.phase
+            ) * 2;
 
+        const alpha =
+            .35 +
+            eased * .65;
 
-    galaxyAnimation =
-        requestAnimationFrame(
-            animateGalaxy
+        /*
+           Halo
+        */
+
+        const gradient =
+            bctx.createRadialGradient(
+                b.x,
+                b.y,
+                0,
+                b.x,
+                b.y,
+                b.size * 6
+            );
+
+        gradient.addColorStop(
+            0,
+            `rgba(210,255,235,${alpha})`
         );
 
+        gradient.addColorStop(
+            .25,
+            `rgba(40,255,165,${alpha})`
+        );
+
+        gradient.addColorStop(
+            1,
+            "rgba(0,255,157,0)"
+        );
+
+        bctx.beginPath();
+
+        bctx.fillStyle = gradient;
+
+        bctx.arc(
+            b.x,
+            b.y + movement,
+            b.size * 6,
+            0,
+            Math.PI * 2
+        );
+
+        bctx.fill();
+
+
+        /*
+           Núcleo brillante
+        */
+
+        bctx.beginPath();
+
+        bctx.fillStyle =
+            `rgba(220,255,240,${alpha})`;
+
+        bctx.arc(
+            b.x,
+            b.y + movement,
+            b.size,
+            0,
+            Math.PI * 2
+        );
+
+        bctx.fill();
+    });
+
+    requestAnimationFrame(
+        animateButterflies
+    );
 }
 
 
-function showGalaxy() {
+/* =====================================================
+   DISPERSIÓN
+===================================================== */
 
-    showScene(
-        galaxyScene
-    );
+function disperseButterflies() {
 
-    createGalaxy();
+    butterflies.forEach(b => {
 
-    cancelAnimationFrame(
-        galaxyAnimation
-    );
+        const angle =
+            Math.random() * Math.PI * 2;
 
-    animateGalaxy();
+        const distance =
+            200 +
+            Math.random() * 700;
 
+        b.targetX =
+            b.x +
+            Math.cos(angle) * distance;
+
+        b.targetY =
+            b.y +
+            Math.sin(angle) * distance;
+    });
+
+    /*
+       Ahora el texto final aparece
+       después de que empieza la dispersión.
+    */
+
+    const message =
+        document.querySelector(".final-message");
+
+    message.style.animation =
+        "finalSoftAppear 2s forwards";
 }
 
 
-/* =========================================================
-   ABRIR CARTA
-========================================================= */
+/* =====================================================
+   CONFETI FINAL MUY SUTIL
+===================================================== */
 
-readLetter.addEventListener(
-    "click",
-    () => {
+setTimeout(() => {
 
-        showScene(
-            letterScene
-        );
+    // No hace nada hasta que se llegue
+    // a la escena final.
 
-
-        setTimeout(() => {
-
-            letter.classList.add(
-                "open"
-            );
-
-
-            setTimeout(() => {
-
-                continueLetter.classList.add(
-                    "show"
-                );
-
-            }, 1800);
-
-        }, 200);
-
-    }
-);
-
-
-/* =========================================================
-   PASAR DE CARTA A FINAL
-========================================================= */
-
-continueLetter.addEventListener(
-    "click",
-    () => {
-
-        continueLetter.classList.remove(
-            "show"
-        );
-
-
-        letter.classList.remove(
-            "open"
-        );
-
-
-        setTimeout(() => {
-
-            showScene(
-                finalScene
-            );
-
-            startFinalEffects();
-
-        }, 900);
-
-    }
-);
-
-
-/*
-   También permitimos tocar
-   directamente el pergamino
-*/
-
-letter.addEventListener(
-    "click",
-    () => {
-
-        if (
-            continueLetter.classList.contains(
-                "show"
-            )
-        ) {
-
-            continueLetter.click();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   EFECTOS FINALES VERDES
-========================================================= */
-
-function startFinalEffects() {
-
-    const greenColors = [
-        "#39ff69",
-        "#aaff54",
-        "#00ff9d",
-        "#72ff42",
-        "#d8ff78"
-    ];
-
-
-    for (
-        let i = 0;
-        i < 100;
-        i++
-    ) {
-
-        setTimeout(() => {
-
-            createParticle(
-
-                Math.random()
-                * window.innerWidth,
-
-                Math.random()
-                * window.innerHeight,
-
-                greenColors[
-                    Math.floor(
-                        Math.random()
-                        * greenColors.length
-                    )
-                ],
-
-                1.5
-
-            );
-
-        }, Math.random() * 5000);
-
-    }
-
-}
+}, 1000);
