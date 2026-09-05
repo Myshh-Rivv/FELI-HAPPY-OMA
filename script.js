@@ -1,6 +1,7 @@
+
 /* =========================================================
    EXPERIENCIA CUMPLEAÑOS - DACHI
-   VERSION ROBUSTA PARA CELULAR
+   VERSIÓN CON TIEMPOS PAUSADOS Y LECTURA CÓMODA
 ========================================================= */
 
 let experienceStarted = false;
@@ -29,11 +30,11 @@ window.startExperience = function () {
         giftScene.classList.remove("active");
         setTimeout(() => {
             giftScene.style.display = "none";
-        }, 1000);
+        }, 1500);
     }
 
     /* -----------------------------------------------
-       MUSICA
+       MÚSICA
     ------------------------------------------------ */
     if (music) {
         music.currentTime = 0;
@@ -62,10 +63,10 @@ window.startExperience = function () {
             birthdayScene.style.display = "flex";
             setTimeout(() => {
                 birthdayScene.classList.add("active");
-            }, 50);
+            }, 100);
         }
         createBirthdayLetters();
-    }, 250);
+    }, 800);
 };
 
 /* =========================================================
@@ -76,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("✅ Página cargada correctamente");
 
     /* ---------------------------------------------
-       BOTON REGALO
+       BOTÓN REGALO
     ---------------------------------------------- */
     const button = document.getElementById("openGiftBtn");
     const box = document.getElementById("giftBox");
@@ -135,15 +136,15 @@ function generateAmbientLights() {
         light.style.left = Math.random() * 100 + "%";
         light.style.top = Math.random() * 100 + "%";
 
-        light.style.setProperty("--speed", (Math.random() * 5 + 3) + "s");
-        light.style.animationDelay = (Math.random() * 5) + "s";
+        light.style.setProperty("--speed", (Math.random() * 8 + 6) + "s");
+        light.style.animationDelay = (Math.random() * 6) + "s";
 
         container.appendChild(light);
     }
 }
 
 /* =========================================================
-   LETRAS FELIZ CUMPLEAÑOS
+   LETRAS FELIZ CUMPLEAÑOS (Entrada más lenta)
 ========================================================= */
 
 function createBirthdayLetters() {
@@ -156,7 +157,7 @@ function createBirthdayLetters() {
     birthday.innerHTML = "";
 
     createWord("FELIZ", happy, 0);
-    createWord("CUMPLEAÑOS", birthday, 5);
+    createWord("CUMPLEAÑOS", birthday, 12); // Mayor separación entre palabras
 }
 
 /* =========================================================
@@ -175,14 +176,15 @@ function createWord(word, container, delayStart) {
         letter.style.setProperty("--start-x", randomX + "px");
         letter.style.setProperty("--start-y", randomY + "px");
         letter.style.setProperty("--rotation", randomRotation + "deg");
-        letter.style.animationDelay = (delayStart + i * .25) + "s";
+        // Aumentado el tiempo entre cada letra a 0.45s
+        letter.style.animationDelay = ((delayStart + i * 0.45) * 0.25) + "s";
 
         container.appendChild(letter);
     }
 }
 
 /* =========================================================
-   TRANSICION A TORTA
+   TRANSICIÓN A TORTA (Ampliada a 22 segundos para disfrutar)
 ========================================================= */
 
 setTimeout(() => {
@@ -202,12 +204,12 @@ setTimeout(() => {
         setTimeout(() => {
             cake.classList.add("active");
             startCountdown();
-        }, 100);
-    }, 900);
-}, 11000);
+        }, 300);
+    }, 1800);
+}, 22000); // Antes 11s, ahora 22s
 
 /* =========================================================
-   CUENTA REGRESIVA
+   CUENTA REGRESIVA (Más pausada)
 ========================================================= */
 
 function startCountdown() {
@@ -224,6 +226,7 @@ function startCountdown() {
     let count = 5;
     number.textContent = count;
 
+    // Cambia cada 1.8 segundos en lugar de 1 segundo
     const timer = setInterval(() => {
         count--;
 
@@ -239,7 +242,7 @@ function startCountdown() {
             flame.classList.add("flame-off");
             setTimeout(() => {
                 flame.style.display = "none";
-            }, 700);
+            }, 1200);
         }
 
         if (title) {
@@ -252,6 +255,7 @@ function startCountdown() {
 
         createGalaxy();
 
+        // Tiempo de espera para admirar la torta apagada antes de pasar a la galaxia
         setTimeout(() => {
             const cake = document.getElementById("scene-cake");
             const galaxy = document.getElementById("scene-galaxy");
@@ -264,9 +268,9 @@ function startCountdown() {
                 cake.style.display = "none";
                 galaxy.style.display = "flex";
                 galaxy.classList.add("active");
-            }, 800);
-        }, 2500);
-    }, 1000);
+            }, 1800);
+        }, 4500); // Antes 2.5s, ahora 4.5s
+    }, 1800);
 }
 
 /* =========================================================
@@ -284,7 +288,7 @@ function createGalaxy() {
         star.className = "galaxy-star";
 
         const radius = 30 + Math.random() * 230;
-        const duration = 5 + Math.random() * 8;
+        const duration = 8 + Math.random() * 12; // Rotación más suave
 
         star.style.setProperty("--radius", radius + "px");
         star.style.setProperty("--duration", duration + "s");
@@ -313,7 +317,7 @@ function openLetterScene() {
         galaxy.style.display = "none";
         letter.style.display = "flex";
         letter.classList.add("active");
-    }, 900);
+    }, 1800);
 }
 
 /* =========================================================
@@ -337,11 +341,11 @@ function startFinalButterflies() {
         finalScene.classList.add("active");
 
         createFireflyButterfly();
-    }, 900);
+    }, 1800);
 }
 
 /* =========================================================
-   MARIPOSA DE LUCIÉRNAGAS PERFECTA
+   MARIPOSA DE LUCIÉRNAGAS PAUSADA
 ========================================================= */
 
 function createFireflyButterfly() {
@@ -356,7 +360,7 @@ function createFireflyButterfly() {
     const totalParticles = 160;
 
     /* ---------------------------------------------
-       1. ALAS (Ecuación Paramétrica de Mariposa)
+       1. ALAS
     ---------------------------------------------- */
     for (let i = 0; i < totalParticles; i++) {
         const t = (i / totalParticles) * Math.PI * 2 * 2;
@@ -374,7 +378,6 @@ function createFireflyButterfly() {
     /* ---------------------------------------------
        2. CUERPO Y ANTENAS
     ---------------------------------------------- */
-    // Torso central
     for (let i = 0; i < 15; i++) {
         points.push({
             x: 50,
@@ -382,7 +385,6 @@ function createFireflyButterfly() {
         });
     }
 
-    // Antena Izquierda
     for (let i = 0; i < 8; i++) {
         points.push({
             x: 50 - (i * 0.6),
@@ -390,7 +392,6 @@ function createFireflyButterfly() {
         });
     }
 
-    // Antena Derecha
     for (let i = 0; i < 8; i++) {
         points.push({
             x: 50 + (i * 0.6),
@@ -408,7 +409,8 @@ function createFireflyButterfly() {
         firefly.style.left = "50%";
         firefly.style.top = "50%";
 
-        firefly.style.transitionDelay = (index * 0.012) + "s";
+        // Se forma gradualmente
+        firefly.style.transitionDelay = (index * 0.025) + "s";
 
         firefly.dataset.x = point.x;
         firefly.dataset.y = point.y;
@@ -417,7 +419,7 @@ function createFireflyButterfly() {
     });
 
     /* ---------------------------------------------
-       ANIMACIÓN: ARMAR MARIPOSA
+       ANIMACIÓN: ARMAR MARIPOSA PAUSADAMENTE
     ---------------------------------------------- */
     setTimeout(() => {
         const fireflies = document.querySelectorAll(".firefly");
@@ -427,7 +429,7 @@ function createFireflyButterfly() {
             firefly.style.top = firefly.dataset.y + "%";
             firefly.classList.add("forming");
         });
-    }, 300);
+    }, 600);
 
     /* ---------------------------------------------
        ANIMACIÓN: PULSACIÓN Y TEXTO FINAL
@@ -441,5 +443,5 @@ function createFireflyButterfly() {
         if (text) {
             text.classList.add("visible");
         }
-    }, 2800);
+    }, 5500); // Antes 2.8s, ahora 5.5s para un cierre suave
 }
