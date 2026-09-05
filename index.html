@@ -2,259 +2,189 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Para Mami Graciela</title>
+    <title>Feliz Cumpleaños Mami</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@400;500;600;700&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<!-- =========================================================
-     CANVAS PARA ESTRELLAS / CONFETI / EFECTOS
-========================================================= -->
+<!-- =====================================================
+     CANVAS GENERAL
+===================================================== -->
 
-<canvas id="effectsCanvas"></canvas>
+<canvas id="spaceCanvas"></canvas>
+<canvas id="butterflyCanvas"></canvas>
 
 
-<!-- =========================================================
+<!-- =====================================================
      AUDIO
-========================================================= -->
+===================================================== -->
 
-<audio id="birthdayMusic" src="mananitas.mp3.mpeg" preload="auto"></audio>
+<audio id="bgMusic" src="mananitas.mp3.mpeg" preload="auto"></audio>
 
 
-<!-- =========================================================
-     PANTALLA INICIAL
-========================================================= -->
+<!-- =====================================================
+     PANTALLA DE INICIO
+===================================================== -->
 
 <section id="intro" class="screen active">
 
-    <div class="ambient-light"></div>
+    <div class="intro-glow"></div>
 
-    <div class="intro-content">
+    <div class="gift-area">
 
-        <div class="small-label">
-            UNA PEQUEÑA SORPRESA
-        </div>
+        <div class="gift-light light-a"></div>
+        <div class="gift-light light-b"></div>
+        <div class="gift-light light-c"></div>
+        <div class="gift-light light-d"></div>
 
-        <!-- CAJA 3D -->
+        <div class="gift">
 
-        <div class="gift-scene">
+            <div class="gift-lid">
+                <div class="ribbon-horizontal"></div>
+                <div class="ribbon-vertical"></div>
 
-            <div class="gift-glow"></div>
+                <div class="bow">
+                    <div class="bow-left"></div>
+                    <div class="bow-right"></div>
+                    <div class="bow-center"></div>
+                </div>
+            </div>
 
             <div class="gift-box">
-
-                <div class="gift-lid">
-
-                    <div class="lid-ribbon-horizontal"></div>
-
-                    <div class="lid-ribbon-vertical"></div>
-
-                    <div class="bow">
-                        <span class="bow-left"></span>
-                        <span class="bow-right"></span>
-                        <span class="bow-center"></span>
-                    </div>
-
-                </div>
-
-                <div class="gift-body">
-
-                    <div class="gift-ribbon"></div>
-
-                    <div class="gift-shine"></div>
-
-                </div>
-
+                <div class="ribbon-vertical"></div>
+                <div class="ribbon-horizontal"></div>
             </div>
 
         </div>
 
+    </div>
 
-        <h1 class="intro-title">
-            Para Mami Graciela
-        </h1>
+    <div class="intro-text">
+        <p class="small-title">UNA PEQUEÑA SORPRESA PARA TI</p>
 
-        <p class="intro-subtitle">
-            Hay algo especial esperando dentro...
-        </p>
+        <h1>Para mi<br><span>mamá</span></h1>
 
-        <button id="openGift" class="gold-button">
-            ABRIR REGALO
+        <p class="intro-date">5 · SEPTIEMBRE</p>
+
+        <button id="openGift">
+            ABRIR
         </button>
-
     </div>
 
 </section>
 
 
-
-<!-- =========================================================
+<!-- =====================================================
      ESCENA 1 — TROMPETAS
-========================================================= -->
+===================================================== -->
 
 <section id="trumpetScene" class="screen">
 
-    <div class="golden-particles"></div>
+    <div class="concert-lights">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-    <div class="celebration-light"></div>
-
-    <div class="trumpet-container">
+    <div class="trumpet-stage">
 
         <!-- TROMPETA IZQUIERDA -->
 
         <svg class="trumpet trumpet-left"
-             viewBox="0 0 500 300"
+             viewBox="0 0 500 260"
              xmlns="http://www.w3.org/2000/svg">
 
             <defs>
 
-                <linearGradient id="goldTrumpet1"
-                                x1="0"
-                                y1="0"
-                                x2="1"
-                                y2="1">
-
-                    <stop offset="0%" stop-color="#fff5a8"/>
-                    <stop offset="25%" stop-color="#ffd447"/>
-                    <stop offset="50%" stop-color="#b87900"/>
-                    <stop offset="75%" stop-color="#ffe56c"/>
-                    <stop offset="100%" stop-color="#8c5700"/>
-
+                <linearGradient id="metalGold1" x1="0" x2="1">
+                    <stop offset="0" stop-color="#5d4300"/>
+                    <stop offset="0.25" stop-color="#e7c65c"/>
+                    <stop offset="0.5" stop-color="#fff2a0"/>
+                    <stop offset="0.75" stop-color="#c79622"/>
+                    <stop offset="1" stop-color="#513900"/>
                 </linearGradient>
 
-                <filter id="goldGlow1">
-
-                    <feGaussianBlur stdDeviation="4"
-                                    result="blur"/>
-
+                <filter id="trumpetGlow">
+                    <feGaussianBlur stdDeviation="5" result="blur"/>
                     <feMerge>
                         <feMergeNode in="blur"/>
                         <feMergeNode in="SourceGraphic"/>
                     </feMerge>
-
                 </filter>
 
             </defs>
 
-            <path
-                d="M40 150
-                   C100 120 140 110 200 120
-                   L340 80
-                   L390 105
-                   L330 140
-                   L210 155
-                   C150 170 100 180 40 165 Z"
+            <g filter="url(#trumpetGlow)">
 
-                fill="url(#goldTrumpet1)"
-                filter="url(#goldGlow1)"
-            />
+                <path
+                    d="M55 128
+                       C90 95 125 92 170 108
+                       L335 108
+                       L335 152
+                       L170 152
+                       C125 168 90 161 55 128Z"
+                    fill="url(#metalGold1)"
+                />
 
-            <path
-                d="M330 80
-                   L450 35
-                   L470 75
-                   L390 105 Z"
+                <path
+                    d="M330 102
+                       L450 72
+                       L450 184
+                       L330 158Z"
+                    fill="url(#metalGold1)"
+                />
 
-                fill="url(#goldTrumpet1)"
-            />
+                <path
+                    d="M450 72
+                       L485 92
+                       L485 164
+                       L450 184Z"
+                    fill="#ffe68b"
+                />
 
-            <circle cx="190" cy="135" r="15"
-                    fill="#ffe56c"/>
+                <ellipse
+                    cx="468"
+                    cy="128"
+                    rx="18"
+                    ry="55"
+                    fill="#5a4100"
+                />
 
-            <circle cx="220" cy="125" r="15"
-                    fill="#ffe56c"/>
+                <ellipse
+                    cx="468"
+                    cy="128"
+                    rx="9"
+                    ry="45"
+                    fill="#1c1604"
+                />
 
-            <circle cx="250" cy="115" r="15"
-                    fill="#ffe56c"/>
+                <rect x="195" y="84" width="15" height="48" rx="5"
+                      fill="#f8dc72"/>
 
-            <rect x="175" y="90"
-                  width="18"
-                  height="70"
-                  rx="7"
-                  fill="#b87900"/>
+                <rect x="240" y="84" width="15" height="48" rx="5"
+                      fill="#f8dc72"/>
 
-            <rect x="205" y="82"
-                  width="18"
-                  height="70"
-                  rx="7"
-                  fill="#b87900"/>
+                <rect x="285" y="84" width="15" height="48" rx="5"
+                      fill="#f8dc72"/>
 
-            <rect x="235" y="75"
-                  width="18"
-                  height="70"
-                  rx="7"
-                  fill="#b87900"/>
+                <circle cx="202" cy="79" r="11" fill="#fff1a1"/>
+                <circle cx="247" cy="79" r="11" fill="#fff1a1"/>
+                <circle cx="292" cy="79" r="11" fill="#fff1a1"/>
 
-        </svg>
-
-
-        <!-- TROMPETA CENTRAL -->
-
-        <svg class="trumpet trumpet-center"
-             viewBox="0 0 500 300"
-             xmlns="http://www.w3.org/2000/svg">
-
-            <defs>
-
-                <linearGradient id="goldTrumpet2"
-                                x1="0"
-                                y1="0"
-                                x2="1"
-                                y2="1">
-
-                    <stop offset="0%" stop-color="#fff7bd"/>
-                    <stop offset="30%" stop-color="#ffd23f"/>
-                    <stop offset="55%" stop-color="#9d6100"/>
-                    <stop offset="80%" stop-color="#ffe678"/>
-                    <stop offset="100%" stop-color="#704000"/>
-
-                </linearGradient>
-
-            </defs>
-
-            <path
-                d="M55 160
-                   C120 120 170 115 235 130
-                   L350 75
-                   L400 105
-                   L350 140
-                   L235 160
-                   C170 175 110 190 55 175 Z"
-
-                fill="url(#goldTrumpet2)"
-            />
-
-            <path
-                d="M350 75
-                   L470 25
-                   L485 75
-                   L400 105 Z"
-
-                fill="url(#goldTrumpet2)"
-            />
-
-            <circle cx="215" cy="135"
-                    r="18"
-                    fill="#ffe678"/>
-
-            <circle cx="250" cy="125"
-                    r="18"
-                    fill="#ffe678"/>
-
-            <circle cx="285" cy="110"
-                    r="18"
-                    fill="#ffe678"/>
+            </g>
 
         </svg>
 
@@ -262,188 +192,276 @@
         <!-- TROMPETA DERECHA -->
 
         <svg class="trumpet trumpet-right"
-             viewBox="0 0 500 300"
+             viewBox="0 0 500 260"
              xmlns="http://www.w3.org/2000/svg">
 
             <defs>
 
-                <linearGradient id="goldTrumpet3"
-                                x1="0"
-                                y1="0"
-                                x2="1"
-                                y2="1">
-
-                    <stop offset="0%" stop-color="#fff4a0"/>
-                    <stop offset="30%" stop-color="#ffc928"/>
-                    <stop offset="55%" stop-color="#9b6100"/>
-                    <stop offset="80%" stop-color="#ffe47b"/>
-                    <stop offset="100%" stop-color="#744300"/>
-
+                <linearGradient id="metalGold2" x1="0" x2="1">
+                    <stop offset="0" stop-color="#493300"/>
+                    <stop offset="0.3" stop-color="#d8b13e"/>
+                    <stop offset="0.55" stop-color="#fff4a8"/>
+                    <stop offset="0.8" stop-color="#b98618"/>
+                    <stop offset="1" stop-color="#473000"/>
                 </linearGradient>
 
             </defs>
 
-            <path
-                d="M40 150
-                   C100 120 140 110 200 120
-                   L340 80
-                   L390 105
-                   L330 140
-                   L210 155
-                   C150 170 100 180 40 165 Z"
+            <g filter="url(#trumpetGlow)">
 
-                fill="url(#goldTrumpet3)"
-            />
+                <path
+                    d="M55 128
+                       C90 95 125 92 170 108
+                       L335 108
+                       L335 152
+                       L170 152
+                       C125 168 90 161 55 128Z"
+                    fill="url(#metalGold2)"
+                />
 
-            <path
-                d="M330 80
-                   L450 35
-                   L470 75
-                   L390 105 Z"
+                <path
+                    d="M330 102
+                       L450 72
+                       L450 184
+                       L330 158Z"
+                    fill="url(#metalGold2)"
+                />
 
-                fill="url(#goldTrumpet3)"
-            />
+                <path
+                    d="M450 72
+                       L485 92
+                       L485 164
+                       L450 184Z"
+                    fill="#ffe68b"
+                />
 
-            <circle cx="190" cy="135"
-                    r="15"
-                    fill="#ffe56c"/>
+                <ellipse
+                    cx="468"
+                    cy="128"
+                    rx="18"
+                    ry="55"
+                    fill="#513800"
+                />
 
-            <circle cx="220" cy="125"
-                    r="15"
-                    fill="#ffe56c"/>
+                <ellipse
+                    cx="468"
+                    cy="128"
+                    rx="9"
+                    ry="45"
+                    fill="#171303"
+                />
 
-            <circle cx="250" cy="115"
-                    r="15"
-                    fill="#ffe56c"/>
+                <rect x="195" y="84" width="15" height="48" rx="5"
+                      fill="#f8dc72"/>
+
+                <rect x="240" y="84" width="15" height="48" rx="5"
+                      fill="#f8dc72"/>
+
+                <rect x="285" y="84" width="15" height="48" rx="5"
+                      fill="#f8dc72"/>
+
+                <circle cx="202" cy="79" r="11" fill="#fff1a1"/>
+                <circle cx="247" cy="79" r="11" fill="#fff1a1"/>
+                <circle cx="292" cy="79" r="11" fill="#fff1a1"/>
+
+            </g>
 
         </svg>
 
     </div>
 
-
-    <div class="sound-waves">
-
-        <span></span>
-        <span></span>
-        <span></span>
-
+    <div class="music-message">
+        <span>♪</span>
+        <p>Para ti, mamá...</p>
+        <span>♪</span>
     </div>
 
-
-    <div class="celebration-text">
-        <span>HOY</span>
-        <strong>CELEBRAMOS</strong>
-        <span>A UNA PERSONA MUY ESPECIAL</span>
+    <div class="eight-counter">
+        <div></div>
     </div>
 
 </section>
 
 
-
-<!-- =========================================================
+<!-- =====================================================
      ESCENA 2 — FELIZ CUMPLEAÑOS
-========================================================= -->
+===================================================== -->
 
 <section id="birthdayScene" class="screen">
 
-    <div class="birthday-background"></div>
+    <div class="birthday-light"></div>
 
-    <div id="letterAnimation"
-         class="birthday-text">
+    <div id="birthdayWords">
+
+        <div class="word-line">
+            <span class="letter">F</span>
+            <span class="letter">E</span>
+            <span class="letter">L</span>
+            <span class="letter">I</span>
+            <span class="letter">Z</span>
+        </div>
+
+        <div class="word-line second">
+            <span class="letter">C</span>
+            <span class="letter">U</span>
+            <span class="letter">M</span>
+            <span class="letter">P</span>
+            <span class="letter">L</span>
+            <span class="letter">E</span>
+            <span class="letter">A</span>
+            <span class="letter">Ñ</span>
+            <span class="letter">O</span>
+            <span class="letter">S</span>
+        </div>
+
     </div>
 
-    <div class="birthday-date">
+    <p class="birthday-date">
         5 DE SEPTIEMBRE
-    </div>
-
-    <div id="textExplosion"></div>
+    </p>
 
 </section>
 
 
-
-<!-- =========================================================
+<!-- =====================================================
      ESCENA 3 — TORTA
-========================================================= -->
+===================================================== -->
 
 <section id="cakeScene" class="screen">
 
-    <div class="cake-stars"></div>
+    <div class="cake-wrapper">
 
-    <div class="cake-title">
-        SOPLA LA VELA
-    </div>
+        <div class="candle-flame" id="flame"></div>
 
-    <div class="cake">
-
-        <div class="cake-candle">
-
-            <div id="flame"
-                 class="flame">
-
-                <div class="flame-core"></div>
-
-            </div>
-
-            <div class="candle-body"></div>
-
+        <div class="candle">
+            <div class="candle-stripe"></div>
         </div>
-
 
         <div class="cake-top">
-
-            <div class="cream cream1"></div>
-            <div class="cream cream2"></div>
-            <div class="cream cream3"></div>
-
-            <div class="chocolate-drip drip1"></div>
-            <div class="chocolate-drip drip2"></div>
-            <div class="chocolate-drip drip3"></div>
-
+            <div class="cream cream-1"></div>
+            <div class="cream cream-2"></div>
+            <div class="cream cream-3"></div>
         </div>
 
-        <div class="cake-layer layer-one"></div>
+        <div class="cake-layer top-layer"></div>
+        <div class="cake-layer middle-layer"></div>
+        <div class="cake-layer bottom-layer"></div>
 
-        <div class="cake-layer layer-two"></div>
-
-        <div class="cake-base"></div>
+        <div class="cake-shadow"></div>
 
     </div>
 
+    <h2 id="wishText">
+        PIDE UN DESEO
+    </h2>
 
-    <div id="countdown"
-         class="countdown">
+    <div id="countdown">
         5
-    </div>
-
-    <div id="wishMessage"
-         class="wish-message">
-        PIDE UN DESEO...
     </div>
 
 </section>
 
 
-
-<!-- =========================================================
+<!-- =====================================================
      ESCENA 4 — GALAXIA
-========================================================= -->
+===================================================== -->
 
 <section id="galaxyScene" class="screen">
 
-    <canvas id="galaxyCanvas"></canvas>
+    <div class="galaxy-core"></div>
 
-    <div class="galaxy-message">
+    <div class="galaxy-star s1"></div>
+    <div class="galaxy-star s2"></div>
+    <div class="galaxy-star s3"></div>
+    <div class="galaxy-star s4"></div>
+    <div class="galaxy-star s5"></div>
+    <div class="galaxy-star s6"></div>
+    <div class="galaxy-star s7"></div>
+    <div class="galaxy-star s8"></div>
+    <div class="galaxy-star s9"></div>
+    <div class="galaxy-star s10"></div>
 
-        <div class="galaxy-small">
-            UN DESEO PARA TI
+    <div class="spiral spiral-1"></div>
+    <div class="spiral spiral-2"></div>
+    <div class="spiral spiral-3"></div>
+
+    <button id="readLetter">
+        TOCA PARA LEER LA CARTA
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     ESCENA 5 — CARTA
+===================================================== -->
+
+<section id="letterScene" class="screen">
+
+    <div class="letter-decoration">
+
+        <div class="balloon balloon-1"></div>
+        <div class="balloon balloon-2"></div>
+        <div class="balloon balloon-3"></div>
+        <div class="balloon balloon-4"></div>
+
+        <div class="sparkle sp1">✦</div>
+        <div class="sparkle sp2">✧</div>
+        <div class="sparkle sp3">✦</div>
+        <div class="sparkle sp4">✧</div>
+
+    </div>
+
+    <div class="parchment">
+
+        <div class="paper-top">
+            <span></span>
+            <p>PARA TI, MAMÁ</p>
+            <span></span>
         </div>
 
-        <button id="readLetter"
-                class="galaxy-button">
+        <h2>Feliz cumpleaños</h2>
 
-            TOCA PARA LEER LA CARTA
+        <p>
+            Hoy quiero aprovechar este día para recordarte
+            lo importante que eres para mí.
+        </p>
 
+        <p>
+            Te quiero muchísimo y deseo que este nuevo año
+            de tu vida esté lleno de momentos bonitos,
+            tranquilidad, salud, sonrisas y muchas razones
+            para sentirte feliz.
+        </p>
+
+        <p>
+            Gracias por todo lo que haces, por cada cuidado,
+            cada consejo y por estar presente de tantas formas.
+            Quizás no siempre encuentre las palabras para
+            decirlo, pero valoro muchísimo tenerte en mi vida.
+        </p>
+
+        <p>
+            Espero que hoy puedas sentir todo el cariño que
+            mereces y que nunca olvides lo especial que eres
+            para mí.
+        </p>
+
+        <div class="final-letter-message">
+
+            <p>
+                Me da una alegría enorme que seas mi mamá
+                y estoy muy orgullosa de tener una mamá como tú.
+            </p>
+
+            <strong>
+                Con todo mi amor.
+            </strong>
+
+        </div>
+
+        <button id="closeLetter">
+            GUARDAR ESTA CARTA ✦
         </button>
 
     </div>
@@ -451,291 +469,31 @@
 </section>
 
 
+<!-- =====================================================
+     ESCENA 6 — MARIPOSAS
+===================================================== -->
 
-<!-- =========================================================
-     ESCENA 5 — CARTA
-========================================================= -->
+<section id="butterflyScene" class="screen">
 
-<section id="letterScene" class="screen">
-
-    <div class="letter-background"></div>
-
-    <div class="balloons">
-
-        <span class="balloon b1"></span>
-        <span class="balloon b2"></span>
-        <span class="balloon b3"></span>
-        <span class="balloon b4"></span>
-
+    <div class="butterfly-title">
+        <p>Y esto es para ti...</p>
     </div>
 
+    <div class="final-message">
 
-    <div id="letter"
-         class="scroll-letter">
+        <h1>
+            TE QUIERO, MA!
+        </h1>
 
-        <div class="scroll-top"></div>
+        <p>
+            Me da una alegría enorme que seas mi mamá.
+        </p>
 
-        <div class="letter-content">
-
-            <div class="letter-decoration">
-                ✦
-            </div>
-
-            <h2>
-                Para mi Mami
-            </h2>
-
-            <div class="letter-line"></div>
-
-            <p>
-                Mami Graciela...
-            </p>
-
-            <p>
-                Hoy quiero aprovechar este día para recordarte
-                lo muchísimo que te quiero.
-            </p>
-
-            <p>
-                Espero que este nuevo año de vida llegue lleno
-                de momentos bonitos, tranquilidad, alegría,
-                sueños cumplidos y muchas razones para sonreír.
-            </p>
-
-            <p>
-                Gracias por todo lo que haces, por tu cariño,
-                por estar presente y por ser una parte tan
-                importante de mi vida.
-            </p>
-
-            <p>
-                Deseo que nunca te falten motivos para ser feliz
-                y que cada día puedas sentir todo el amor que
-                quienes te queremos tenemos por ti.
-            </p>
-
-            <div class="signature">
-                Con muchísimo amor,
-                <br>
-                <strong>tu hija Darcy</strong>
-            </div>
-
-        </div>
-
-        <div class="scroll-bottom"></div>
+        <p>
+            Estoy muy orgullosa de ti.
+        </p>
 
     </div>
-
-
-    <button id="continueLetter"
-            class="continue-button">
-
-        TOCA LA CARTA PARA CONTINUAR
-
-    </button>
-
-</section>
-
-
-
-<!-- =========================================================
-     ESCENA FINAL — MARIPOSA NEON
-========================================================= -->
-
-<section id="finalScene" class="screen">
-
-    <div class="green-particles"></div>
-
-    <div class="butterfly-wrapper">
-
-        <svg id="butterfly"
-             viewBox="0 0 600 500"
-             xmlns="http://www.w3.org/2000/svg">
-
-            <defs>
-
-                <filter id="neonGreen">
-
-                    <feGaussianBlur
-                        stdDeviation="5"
-                        result="blur"/>
-
-                    <feMerge>
-
-                        <feMergeNode
-                            in="blur"/>
-
-                        <feMergeNode
-                            in="SourceGraphic"/>
-
-                    </feMerge>
-
-                </filter>
-
-                <linearGradient id="wingGreen"
-                                x1="0"
-                                y1="0"
-                                x2="1"
-                                y2="1">
-
-                    <stop offset="0%"
-                          stop-color="#d8ff78"/>
-
-                    <stop offset="25%"
-                          stop-color="#72ff42"/>
-
-                    <stop offset="50%"
-                          stop-color="#00ff88"/>
-
-                    <stop offset="75%"
-                          stop-color="#19d96b"/>
-
-                    <stop offset="100%"
-                          stop-color="#006b39"/>
-
-                </linearGradient>
-
-            </defs>
-
-
-            <!-- ALA IZQUIERDA -->
-
-            <path
-                class="wing wing-left"
-                d="
-                M300 240
-                C230 70 60 55 45 180
-                C35 270 170 320 295 270
-                Z"
-                fill="url(#wingGreen)"
-                filter="url(#neonGreen)"
-            />
-
-
-            <!-- ALA DERECHA -->
-
-            <path
-                class="wing wing-right"
-                d="
-                M300 240
-                C370 70 540 55 555 180
-                C565 270 430 320 305 270
-                Z"
-                fill="url(#wingGreen)"
-                filter="url(#neonGreen)"
-            />
-
-
-            <!-- DETALLES ALA IZQUIERDA -->
-
-            <path
-                class="wing-detail"
-                d="
-                M285 230
-                C220 130 115 100 80 165
-                C120 150 170 175 230 230"
-                fill="none"
-            />
-
-
-            <path
-                class="wing-detail"
-                d="
-                M270 255
-                C190 240 120 220 95 190"
-                fill="none"
-            />
-
-
-            <!-- DETALLES ALA DERECHA -->
-
-            <path
-                class="wing-detail"
-                d="
-                M315 230
-                C380 130 485 100 520 165
-                C480 150 430 175 370 230"
-                fill="none"
-            />
-
-
-            <path
-                class="wing-detail"
-                d="
-                M330 255
-                C410 240 480 220 505 190"
-                fill="none"
-            />
-
-
-            <!-- CUERPO -->
-
-            <ellipse
-                cx="300"
-                cy="280"
-                rx="20"
-                ry="95"
-                fill="#baff61"
-                filter="url(#neonGreen)"
-            />
-
-
-            <circle
-                cx="300"
-                cy="180"
-                r="28"
-                fill="#d8ff78"
-                filter="url(#neonGreen)"
-            />
-
-
-            <!-- ANTENAS -->
-
-            <path
-                d="M292 175 Q250 100 220 85"
-                stroke="#6aff45"
-                stroke-width="5"
-                fill="none"
-                filter="url(#neonGreen)"
-            />
-
-            <path
-                d="M308 175 Q350 100 380 85"
-                stroke="#6aff45"
-                stroke-width="5"
-                fill="none"
-                filter="url(#neonGreen)"
-            />
-
-
-            <circle
-                cx="220"
-                cy="85"
-                r="7"
-                fill="#d8ff78"
-            />
-
-            <circle
-                cx="380"
-                cy="85"
-                r="7"
-                fill="#d8ff78"
-            />
-
-        </svg>
-
-    </div>
-
-
-    <div class="final-line"></div>
-
-    <h1 class="final-message">
-        TE QUIERO MA!
-    </h1>
-
-    <p class="final-subtitle">
-        ❤️
-    </p>
 
 </section>
 
