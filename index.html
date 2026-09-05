@@ -2,9 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        content="width=device-width,
+        initial-scale=1.0,
+        maximum-scale=1.0,
+        user-scalable=no"
     >
 
     <title>Para Mamá Graciela ✨</title>
@@ -12,481 +16,641 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Parisienne&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Parisienne&display=swap"
+        rel="stylesheet"
+    >
 
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-    <!-- =========================================================
-         FONDO GENERAL
-    ========================================================== -->
+<!-- ======================================================
+     UNIVERSO
+====================================================== -->
 
-    <div id="universe">
-        <div class="stars-layer stars-1"></div>
-        <div class="stars-layer stars-2"></div>
-        <div class="stars-layer stars-3"></div>
-        <div id="ambient-lights"></div>
+<div id="universe">
+
+    <div class="stars-layer stars-1"></div>
+    <div class="stars-layer stars-2"></div>
+    <div class="stars-layer stars-3"></div>
+
+    <div id="ambient-lights"></div>
+
+</div>
+
+
+<!-- ======================================================
+     MUSICA
+====================================================== -->
+
+<audio id="bgMusic" preload="auto">
+    <source src="mananitas.mp3.mpeg" type="audio/mpeg">
+</audio>
+
+
+<!-- ======================================================
+     ESCENA 0
+====================================================== -->
+
+<section id="scene-gift" class="scene active">
+
+    <div class="gift-intro">
+
+        <div class="tiny-stars">
+            ✦　·　✧　·　✦
+        </div>
+
+        <p class="little-message">
+            Preparé algo para ti...
+        </p>
+
+        <h1 class="gift-title">
+            Para mi mamá
+        </h1>
+
+        <div
+            class="gift-stage"
+            onclick="startExperience()"
+        >
+
+            <div class="gift-glow"></div>
+
+            <div id="giftBox" class="gift-box">
+
+                <div class="gift-lid">
+
+                    <div class="gift-ribbon-horizontal"></div>
+
+                    <div class="gift-bow">
+
+                        <span class="bow-left"></span>
+                        <span class="bow-center"></span>
+                        <span class="bow-right"></span>
+
+                    </div>
+
+                </div>
+
+                <div class="gift-body">
+
+                    <div class="gift-ribbon-vertical"></div>
+
+                    <div class="gift-shine"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             BOTON SEGURO
+        ================================================== -->
+
+        <button
+            id="openGiftBtn"
+            class="main-button"
+            type="button"
+            onclick="startExperience()"
+        >
+
+            ABRIR
+
+            <span>✦</span>
+
+        </button>
+
+
+        <p class="tap-hint">
+            Toca la caja o el botón para comenzar
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FELIZ CUMPLEAÑOS
+====================================================== -->
+
+<section id="scene-birthday" class="scene">
+
+    <div
+        class="golden-particles"
+        id="goldenParticles"
+    ></div>
+
+    <div class="light-ribbons">
+
+        <div class="ribbon ribbon-left"></div>
+        <div class="ribbon ribbon-right"></div>
+
+        <div class="sparkle-orbit"></div>
+
     </div>
 
 
-    <!-- =========================================================
-         AUDIO
-    ========================================================== -->
+    <div class="birthday-content">
 
-    <audio id="bgMusic" preload="auto">
-        <source src="mananitas.mp3.mpeg" type="audio/mpeg">
-    </audio>
+        <div class="date-label">
+            05 · SEPTIEMBRE
+        </div>
 
 
-    <!-- =========================================================
-         ESCENA 0 - CAJA DE REGALO
-    ========================================================== -->
+        <!-- FELIZ -->
+        <div
+            id="happyText"
+            class="birthday-line happy-line"
+        ></div>
 
-    <section id="scene-gift" class="scene active">
 
-        <div class="gift-intro">
+        <!-- CUMPLEAÑOS -->
+        <div
+            id="birthdayText"
+            class="birthday-line birthday-line-second"
+        ></div>
 
-            <div class="tiny-stars">
-                <span>✦</span>
-                <span>·</span>
-                <span>✧</span>
-                <span>·</span>
-                <span>✦</span>
-            </div>
 
-            <p class="little-message">
-                Preparé algo para ti...
-            </p>
+        <!-- MAMÁ -->
+        <div
+            id="momText"
+            class="mom-text"
+        >
 
-            <h1 class="gift-title">
-                Para mi mamá
-            </h1>
-
-            <div class="gift-stage">
-
-                <div class="gift-glow"></div>
-
-                <!-- Caja -->
-                <div id="giftBox" class="gift-box">
-
-                    <div class="gift-lid">
-
-                        <div class="gift-ribbon-horizontal"></div>
-
-                        <div class="gift-bow">
-                            <span class="bow-left"></span>
-                            <span class="bow-center"></span>
-                            <span class="bow-right"></span>
-                        </div>
-
-                    </div>
-
-                    <div class="gift-body">
-
-                        <div class="gift-ribbon-vertical"></div>
-
-                        <div class="gift-shine"></div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <button id="openGiftBtn" class="main-button">
-                ABRIR
-                <span>✦</span>
-            </button>
-
-            <p class="tap-hint">
-                Toca la caja para comenzar
-            </p>
+            <span>¡</span>
+            <span>M</span>
+            <span>A</span>
+            <span>M</span>
+            <span>Á</span>
+            <span>!</span>
 
         </div>
 
-    </section>
 
-
-    <!-- =========================================================
-         ESCENA 1 - FELIZ CUMPLEAÑOS
-    ========================================================== -->
-
-    <section id="scene-birthday" class="scene">
-
-        <div class="golden-particles" id="goldenParticles"></div>
-
-        <!-- Destellos elegantes en lugar de trompetas -->
-        <div class="light-ribbons">
-            <div class="ribbon ribbon-left"></div>
-            <div class="ribbon ribbon-right"></div>
-            <div class="sparkle-orbit"></div>
+        <div class="birthday-subtitle">
+            Hoy celebramos tu vida ✦
         </div>
 
-        <div class="birthday-content">
+    </div>
 
-            <div class="date-label">
-                05 · SEPTIEMBRE
-            </div>
-
-            <div id="happyText" class="birthday-line happy-line">
-                <!-- JS coloca las letras -->
-            </div>
-
-            <div id="birthdayText" class="birthday-line birthday-line">
-                <!-- JS coloca las letras -->
-            </div>
-
-            <div id="momText" class="mom-text">
-                <span>¡</span>
-                <span>M</span>
-                <span>A</span>
-                <span>M</span>
-                <span>Á</span>
-                <span>!</span>
-            </div>
-
-            <div class="birthday-subtitle">
-                Hoy celebramos tu vida ✦
-            </div>
-
-        </div>
-
-    </section>
+</section>
 
 
-    <!-- =========================================================
-         ESCENA 2 - TORTA
-    ========================================================== -->
+<!-- ======================================================
+     TORTA
+====================================================== -->
 
-    <section id="scene-cake" class="scene">
+<section id="scene-cake" class="scene">
 
-        <div class="cake-scene">
+    <div class="cake-scene">
 
-            <p class="cake-intro">
-                Hay algo que quiero pedirte...
-            </p>
+        <p class="cake-intro">
+            Ahora cierra los ojos...
+        </p>
 
-            <div class="cake-wrapper">
 
-                <div class="cake-glow"></div>
+        <div class="cake-wrapper">
 
-                <!-- TORTA SVG -->
-                <svg
-                    class="cake-svg"
-                    viewBox="0 0 500 430"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
+            <div class="cake-glow"></div>
 
-                    <!-- sombra -->
-                    <ellipse
-                        cx="250"
-                        cy="390"
-                        rx="175"
-                        ry="22"
-                        fill="rgba(0,0,0,.45)"
-                    />
 
-                    <!-- plato -->
-                    <ellipse
-                        cx="250"
-                        cy="360"
-                        rx="175"
-                        ry="30"
-                        fill="#172322"
-                        stroke="#8dffcf"
-                        stroke-width="3"
-                    />
+            <svg
+                class="cake-svg"
+                viewBox="0 0 500 430"
+                xmlns="http://www.w3.org/2000/svg"
+            >
 
-                    <ellipse
-                        cx="250"
-                        cy="350"
-                        rx="150"
-                        ry="22"
-                        fill="#0b1516"
-                        stroke="#c7ffe8"
-                        stroke-width="2"
-                    />
+                <ellipse
+                    cx="250"
+                    cy="390"
+                    rx="175"
+                    ry="22"
+                    fill="rgba(0,0,0,.5)"
+                />
 
-                    <!-- cuerpo torta -->
+
+                <!-- PLATO -->
+
+                <ellipse
+                    cx="250"
+                    cy="360"
+                    rx="175"
+                    ry="30"
+                    fill="#101918"
+                    stroke="#baff18"
+                    stroke-width="3"
+                />
+
+                <ellipse
+                    cx="250"
+                    cy="350"
+                    rx="150"
+                    ry="22"
+                    fill="#07100e"
+                    stroke="#efffb0"
+                    stroke-width="2"
+                />
+
+
+                <!-- TORTA -->
+
+                <path
+                    d="
+                    M105 245
+                    Q105 220 130 215
+                    L370 215
+                    Q395 220 395 245
+                    L385 330
+                    Q380 350 355 355
+                    L145 355
+                    Q120 350 115 330
+                    Z
+                    "
+                    fill="#d7bd91"
+                    stroke="#f6dfae"
+                    stroke-width="5"
+                />
+
+
+                <!-- CREMA -->
+
+                <path
+                    d="
+                    M105 245
+                    Q125 220 145 235
+                    Q165 250 185 232
+                    Q205 215 225 235
+                    Q245 255 265 235
+                    Q285 215 305 235
+                    Q325 250 345 232
+                    Q375 212 395 245
+
+                    L395 270
+
+                    Q375 250 355 267
+                    Q330 282 310 263
+                    Q290 245 270 265
+                    Q250 282 230 263
+                    Q210 245 190 265
+                    Q170 282 150 263
+                    Q125 248 105 270
+
+                    Z
+                    "
+                    fill="#fff8e8"
+                    stroke="#fff"
+                    stroke-width="4"
+                />
+
+
+                <!-- DECORACIONES -->
+
+                <circle
+                    cx="150"
+                    cy="300"
+                    r="7"
+                    fill="#baff18"
+                />
+
+                <circle
+                    cx="185"
+                    cy="320"
+                    r="7"
+                    fill="#f1db7b"
+                />
+
+                <circle
+                    cx="220"
+                    cy="295"
+                    r="7"
+                    fill="#baff18"
+                />
+
+                <circle
+                    cx="280"
+                    cy="315"
+                    r="7"
+                    fill="#f1db7b"
+                />
+
+                <circle
+                    cx="320"
+                    cy="295"
+                    r="7"
+                    fill="#baff18"
+                />
+
+                <circle
+                    cx="350"
+                    cy="320"
+                    r="7"
+                    fill="#f1db7b"
+                />
+
+
+                <!-- VELA -->
+
+                <rect
+                    x="235"
+                    y="135"
+                    width="30"
+                    height="85"
+                    rx="7"
+                    fill="#e7eee6"
+                    stroke="#baff18"
+                    stroke-width="3"
+                />
+
+
+                <path
+                    d="
+                    M237 155 L263 140
+                    M237 180 L263 165
+                    M237 205 L263 190
+                    "
+                    stroke="#87d62b"
+                    stroke-width="7"
+                />
+
+
+                <!-- LLAMA -->
+
+                <g id="flame">
+
                     <path
-                        d="M105 245
-                           Q105 220 130 215
-                           L370 215
-                           Q395 220 395 245
-                           L385 330
-                           Q380 350 355 355
-                           L145 355
-                           Q120 350 115 330Z"
-                        fill="#d5c19b"
-                        stroke="#f2dfb5"
-                        stroke-width="5"
+                        d="
+                        M250 132
+                        C230 115 246 95 257 84
+                        C256 106 280 108 269 131
+                        C265 142 253 146 250 132Z
+                        "
+                        fill="#efff71"
                     />
 
-                    <!-- crema -->
                     <path
-                        d="M105 245
-                           Q125 220 145 235
-                           Q165 250 185 232
-                           Q205 215 225 235
-                           Q245 255 265 235
-                           Q285 215 305 235
-                           Q325 250 345 232
-                           Q375 212 395 245
-                           L395 270
-                           Q375 250 355 267
-                           Q330 282 310 263
-                           Q290 245 270 265
-                           Q250 282 230 263
-                           Q210 245 190 265
-                           Q170 282 150 263
-                           Q125 248 105 270Z"
-                        fill="#f7f2df"
-                        stroke="#fff"
-                        stroke-width="4"
+                        d="
+                        M252 128
+                        C245 115 255 106 261 101
+                        C261 115 270 119 264 130
+                        C260 136 254 135 252 128Z
+                        "
+                        fill="#baff18"
                     />
 
-                    <!-- decoración -->
-                    <circle cx="150" cy="300" r="7" fill="#8dffcf"/>
-                    <circle cx="185" cy="320" r="7" fill="#e5d27f"/>
-                    <circle cx="220" cy="295" r="7" fill="#8dffcf"/>
-                    <circle cx="280" cy="315" r="7" fill="#e5d27f"/>
-                    <circle cx="320" cy="295" r="7" fill="#8dffcf"/>
-                    <circle cx="350" cy="320" r="7" fill="#e5d27f"/>
+                </g>
 
-                    <!-- vela -->
-                    <rect
-                        x="235"
-                        y="135"
-                        width="30"
-                        height="85"
-                        rx="7"
-                        fill="#d7e8df"
-                        stroke="#9bffe0"
-                        stroke-width="3"
-                    />
-
-                    <!-- rayas vela -->
-                    <path
-                        d="M237 155 L263 140
-                           M237 180 L263 165
-                           M237 205 L263 190"
-                        stroke="#79d8ba"
-                        stroke-width="7"
-                    />
-
-                    <!-- llama -->
-                    <g id="flame">
-                        <path
-                            d="M250 132
-                               C230 115 246 95 257 84
-                               C256 106 280 108 269 131
-                               C265 142 253 146 250 132Z"
-                            fill="#e8ff9a"
-                        />
-
-                        <path
-                            d="M252 128
-                               C245 115 255 106 261 101
-                               C261 115 270 119 264 130
-                               C260 136 254 135 252 128Z"
-                            fill="#9dffce"
-                        />
-                    </g>
-
-                </svg>
-
-            </div>
-
-            <h2 id="countdownText">
-                Sopla la vela
-            </h2>
-
-            <div id="countdown" class="countdown-number">
-                5
-            </div>
-
-            <p id="cakeMessage" class="cake-message">
-                Cierra los ojos y pide un deseo...
-            </p>
+            </svg>
 
         </div>
 
-    </section>
+
+        <h2 id="countdownText">
+            Sopla la vela
+        </h2>
 
 
-    <!-- =========================================================
-         ESCENA 3 - GALAXIA
-    ========================================================== -->
-
-    <section id="scene-galaxy" class="scene">
-
-        <div id="galaxy"></div>
-
-        <div class="galaxy-center">
-
-            <div class="galaxy-stars-symbol">
-                ✦
-            </div>
-
-            <h2>
-                Hay deseos que merecen<br>
-                quedarse para siempre.
-            </h2>
-
-            <button id="openLetterBtn" class="galaxy-button">
-                Toca para leer la carta
-                <span>✧</span>
-            </button>
-
+        <div
+            id="countdown"
+            class="countdown-number"
+        >
+            5
         </div>
 
-    </section>
+
+        <p
+            id="cakeMessage"
+            class="cake-message"
+        >
+            Pide un deseo...
+        </p>
+
+    </div>
+
+</section>
 
 
-    <!-- =========================================================
-         ESCENA 4 - CARTA / PERGAMINO
-    ========================================================== -->
+<!-- ======================================================
+     GALAXIA
+====================================================== -->
 
-    <section id="scene-letter" class="scene">
+<section id="scene-galaxy" class="scene">
 
-        <div class="letter-background">
-            <div class="letter-confetti"></div>
+    <div id="galaxy"></div>
+
+
+    <div class="galaxy-center">
+
+        <div class="galaxy-stars-symbol">
+            ✦
         </div>
 
-        <div class="scroll-container">
 
-            <div class="scroll-top"></div>
+        <h2>
+            Hay deseos que merecen<br>
+            quedarse para siempre.
+        </h2>
 
-            <article class="parchment">
 
-                <div class="parchment-decoration top-decoration">
-                    ✦　❧　✦
-                </div>
-
-                <p class="letter-date">
-                    5 de septiembre
-                </p>
-
-                <h2>
-                    Para mi mamá
-                </h2>
-
-                <div class="small-heart">
-                    ♡
-                </div>
-
-                <div class="letter-content">
-
-                    <p>
-                        Mamá,
-                    </p>
-
-                    <p>
-                        Hoy quería hacer algo diferente para recordarte
-                        lo importante que eres para mí. A veces no encuentro
-                        las palabras exactas para decirte cuánto te quiero,
-                        pero espero que esta pequeña sorpresa pueda
-                        acercarse un poquito a todo lo que siento.
-                    </p>
-
-                    <p>
-                        Te quiero muchísimo, Ma. Gracias por cada abrazo,
-                        por cada consejo, por preocuparte por mí y por estar
-                        presente en tantos momentos de mi vida.
-                    </p>
-
-                    <p>
-                        Deseo de todo corazón que tu vida esté llena de
-                        <strong>salud, tranquilidad, alegría y muchos momentos
-                        bonitos.</strong> Que puedas cumplir tus sueños,
-                        disfrutar cada etapa y recibir todo el cariño que
-                        mereces.
-                    </p>
-
-                    <p>
-                        Quiero que sepas que para mí eres una persona muy
-                        especial y que me hace feliz poder llamarte
-                        <strong>mamá.</strong>
-                    </p>
-
-                    <p>
-                        Y sobre todo, quiero que nunca olvides algo:
-                        <strong>estoy muy orgullosa de tener una mamá como tú.</strong>
-                    </p>
-
-                </div>
-
-                <div class="letter-signature">
-
-                    <p>
-                        Con todo mi amor,
-                    </p>
-
-                    <div>
-                        Atte: Dachi
-                    </div>
-
-                </div>
-
-                <div class="parchment-decoration bottom-decoration">
-                    ✧　❧　✧
-                </div>
-
-            </article>
-
-            <div class="scroll-bottom"></div>
-
-        </div>
-
-        <button id="closeLetterBtn" class="letter-button">
-            Seguir ✦
+        <button
+            id="openLetterBtn"
+            class="galaxy-button"
+            type="button"
+        >
+            Toca para leer la carta ✧
         </button>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- =========================================================
-         ESCENA 5 - MARIPOSAS DE LUCES
-    ========================================================== -->
+<!-- ======================================================
+     CARTA
+====================================================== -->
 
-    <section id="scene-butterfly" class="scene">
+<section id="scene-letter" class="scene">
 
-        <div id="fireflies"></div>
+    <div class="letter-background">
 
-        <div id="smallButterflies"></div>
+        <div class="letter-confetti"></div>
 
-        <div class="butterfly-final">
+    </div>
 
-            <div class="final-butterfly" id="mainButterfly">
 
-                <div class="wing wing-left"></div>
-                <div class="wing wing-right"></div>
+    <div class="scroll-container">
 
-                <div class="butterfly-body"></div>
+        <div class="scroll-top"></div>
 
+
+        <article class="parchment">
+
+            <div class="parchment-decoration">
+                ✦　❧　✦
             </div>
 
-            <div id="finalText" class="final-text">
 
-                <h1>
-                    TE QUIERO, MA
-                </h1>
+            <p class="letter-date">
+                5 de septiembre
+            </p>
+
+
+            <h2>
+                Para mi mamá
+            </h2>
+
+
+            <div class="small-heart">
+                ♡
+            </div>
+
+
+            <div class="letter-content">
 
                 <p>
-                    Me da mucha alegría tenerte como mamá.<br>
-                    Estoy orgullosa de ti y de la mujer que eres. ♡
+                    Mamá,
+                </p>
+
+
+                <p>
+                    Hoy quería hacer algo diferente para ti,
+                    porque aunque muchas veces no encuentro las
+                    palabras exactas para decirlo, quiero que sepas
+                    cuánto te quiero.
+                </p>
+
+
+                <p>
+                    Te quiero muchísimo, Ma. Gracias por todos esos
+                    momentos en los que has estado conmigo, por tus
+                    abrazos, por tus consejos y por todo el cariño
+                    que me has dado a lo largo de mi vida.
+                </p>
+
+
+                <p>
+                    En este día tan especial deseo de todo corazón
+                    que tu vida esté llena de
+                    <strong>
+                        salud, tranquilidad, alegría y muchos
+                        momentos bonitos.
+                    </strong>
+                </p>
+
+
+                <p>
+                    Deseo que puedas disfrutar mucho de la vida,
+                    cumplir tus sueños y recibir todo ese amor que
+                    mereces.
+                </p>
+
+
+                <p>
+                    Me hace muy feliz poder decir que eres mi mamá.
+                    Y quiero que recuerdes siempre que
+                    <strong>
+                        estoy muy orgullosa de tener una mamá como tú.
+                    </strong>
+                </p>
+
+
+                <p>
+                    Espero que este nuevo año de vida te regale
+                    muchas razones para sonreír y que nunca te falte
+                    amor.
                 </p>
 
             </div>
 
+
+            <div class="letter-signature">
+
+                <p>
+                    Con todo mi amor,
+                </p>
+
+                <div>
+                    Atte: Dachi
+                </div>
+
+            </div>
+
+
+            <div class="parchment-decoration">
+                ✧　❧　✧
+            </div>
+
+        </article>
+
+
+        <div class="scroll-bottom"></div>
+
+    </div>
+
+
+    <button
+        id="closeLetterBtn"
+        class="letter-button"
+        type="button"
+    >
+        Continuar ✦
+    </button>
+
+</section>
+
+
+<!-- ======================================================
+     MARIPOSAS
+====================================================== -->
+
+<section id="scene-butterfly" class="scene">
+
+    <div id="fireflies"></div>
+
+    <div id="smallButterflies"></div>
+
+
+    <div class="butterfly-final">
+
+        <div
+            class="final-butterfly"
+            id="mainButterfly"
+        >
+
+            <div class="wing wing-left"></div>
+
+            <div class="wing wing-right"></div>
+
+            <div class="butterfly-body"></div>
+
         </div>
 
-    </section>
+
+        <div
+            id="finalText"
+            class="final-text"
+        >
+
+            <h1>
+                TE QUIERO, MA
+            </h1>
+
+            <p>
+                Me da mucha alegría tenerte como mamá.<br>
+                Estoy muy orgullosa de ti. ♡
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
 
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
