@@ -3,213 +3,104 @@
 ========================================================= */
 
 const scenes = {
-
     gift: document.getElementById("scene-gift"),
-
-    trumpets: document.getElementById("scene-trumpets"),
-
     birthday: document.getElementById("scene-birthday"),
-
     cake: document.getElementById("scene-cake"),
-
     galaxy: document.getElementById("scene-galaxy"),
-
     letter: document.getElementById("scene-letter"),
-
     butterfly: document.getElementById("scene-butterfly")
-
 };
 
-const music = document.getElementById("birthdayMusic");
-
-let currentScene = "gift";
-
-let timers = [];
+const music = document.getElementById("bgMusic");
 
 let experienceStarted = false;
+let cakeTimer = null;
 
 
 /* =========================================================
-   CAMBIO SEGURO DE ESCENA
+   CAMBIO DE ESCENAS
 ========================================================= */
 
-function goTo(sceneName) {
+function showScene(scene) {
 
-    if (!scenes[sceneName]) return;
-
-    Object.values(scenes).forEach(scene => {
-
-        scene.classList.remove("active");
-
+    Object.values(scenes).forEach(s => {
+        s.classList.remove("active");
     });
 
-    scenes[sceneName].classList.add("active");
-
-    currentScene = sceneName;
-
+    scene.classList.add("active");
 }
 
 
 /* =========================================================
-   CANCELAR TIMERS
+   AMBIENTE DE LUCES
 ========================================================= */
 
-function clearTimers() {
-
-    timers.forEach(timer => clearTimeout(timer));
-
-    timers = [];
-
-}
-
-function wait(callback, milliseconds) {
-
-    const timer = setTimeout(callback, milliseconds);
-
-    timers.push(timer);
-
-    return timer;
-
-}
-
-
-/* =========================================================
-   ESTRELLAS DE FONDO
-========================================================= */
-
-function createStars() {
+function createAmbientLights() {
 
     const container =
-        document.getElementById("stars");
+        document.getElementById("ambient-lights");
 
-    container.innerHTML = "";
+    for (let i = 0; i < 35; i++) {
 
-    const amount =
-        window.innerWidth < 600 ? 100 : 170;
+        const light = document.createElement("div");
 
-    for (let i = 0; i < amount; i++) {
+        light.style.position = "absolute";
 
-        const star =
-            document.createElement("div");
+        light.style.width =
+            `${Math.random() * 3 + 1}px`;
 
-        star.className = "star";
+        light.style.height =
+            light.style.width;
 
-        const size =
-            Math.random() * 3 + 1;
+        light.style.borderRadius = "50%";
 
-        star.style.width = size + "px";
-        star.style.height = size + "px";
-
-        star.style.left =
-            Math.random() * 100 + "%";
-
-        star.style.top =
-            Math.random() * 100 + "%";
-
-        star.style.setProperty(
-            "--duration",
-            (Math.random() * 3 + 2) + "s"
-        );
-
-        star.style.animationDelay =
-            Math.random() * 3 + "s";
-
-        container.appendChild(star);
-
-    }
-
-}
-
-
-/* =========================================================
-   LUCES FLOTANTES
-========================================================= */
-
-function createFloatingLights() {
-
-    const container =
-        document.getElementById("particles");
-
-    container.innerHTML = "";
-
-    for (let i = 0; i < 45; i++) {
-
-        const light =
-            document.createElement("div");
-
-        light.className = "floating-light";
+        light.style.background =
+            Math.random() > .5
+                ? "#78ffc9"
+                : "#e5d27f";
 
         light.style.left =
-            Math.random() * 100 + "%";
+            `${Math.random() * 100}%`;
 
-        light.style.setProperty(
-            "--move",
-            (Math.random() * 180 - 90) + "px"
-        );
+        light.style.top =
+            `${Math.random() * 100}%`;
 
-        light.style.setProperty(
-            "--duration",
-            (Math.random() * 8 + 5) + "s"
-        );
+        light.style.boxShadow =
+            `0 0 10px ${light.style.background}`;
 
-        light.style.animationDelay =
-            Math.random() * 8 + "s";
+        light.style.opacity =
+            Math.random() * .6 + .2;
 
-        container.appendChild(light);
-
-    }
-
-}
-
-
-/* =========================================================
-   EXPLOSIÓN DE LUCES DE LA CAJA
-========================================================= */
-
-function giftExplosion() {
-
-    const container =
-        document.getElementById("light-bursts");
-
-    const amount = 100;
-
-    for (let i = 0; i < amount; i++) {
-
-        const light =
-            document.createElement("div");
-
-        light.className = "light-burst";
-
-        const angle =
-            Math.random() * Math.PI * 2;
-
-        const distance =
-            Math.random() * 480 + 100;
-
-        light.style.setProperty(
-            "--x",
-            Math.cos(angle) * distance + "px"
-        );
-
-        light.style.setProperty(
-            "--y",
-            Math.sin(angle) * distance + "px"
-        );
+        light.style.animation =
+            `ambientPulse ${Math.random() * 3 + 2}s ease-in-out infinite alternate`;
 
         light.style.animationDelay =
-            Math.random() * .3 + "s";
+            `${Math.random() * 3}s`;
 
         container.appendChild(light);
+    }
+}
 
-        setTimeout(() => {
+const ambientStyle = document.createElement("style");
 
-            light.remove();
+ambientStyle.innerHTML = `
+@keyframes ambientPulse {
 
-        }, 1600);
-
+    from {
+        transform: scale(.5);
+        opacity: .2;
     }
 
+    to {
+        transform: scale(1.8);
+        opacity: .9;
+    }
 }
+`;
+
+document.head.appendChild(ambientStyle);
+
+createAmbientLights();
 
 
 /* =========================================================
@@ -217,7 +108,11 @@ function giftExplosion() {
 ========================================================= */
 
 document
-    .getElementById("openGift")
+    .getElementById("openGiftBtn")
+    .addEventListener("click", startExperience);
+
+document
+    .getElementById("giftBox")
     .addEventListener("click", startExperience);
 
 
@@ -227,62 +122,127 @@ function startExperience() {
 
     experienceStarted = true;
 
-    createStars();
-    createFloatingLights();
-
-    /*
-       Importante:
-       el navegador permite audio porque
-       esta función nació del click del usuario.
-    */
-
+    /* Música */
     music.volume = 0.8;
 
-    music.currentTime = 0;
+    const playPromise = music.play();
 
-    music.play().catch(error => {
+    if (playPromise !== undefined) {
 
-        console.log(
-            "El navegador bloqueó el audio:",
-            error
-        );
+        playPromise.catch(() => {
 
-    });
+            /*
+             * Algunos navegadores bloquean audio.
+             * Si pasa, la experiencia sigue funcionando.
+             */
 
-    giftExplosion();
+            console.log(
+                "El navegador bloqueó el audio automático."
+            );
 
-    wait(() => {
+        });
+    }
 
-        goTo("trumpets");
 
-        startTrumpetSequence();
+    /* Explosión de luces */
+    createOpeningBurst();
+
+    /* Ir a FELIZ CUMPLEAÑOS */
+    setTimeout(() => {
+
+        showScene(scenes.birthday);
+
+        buildBirthdayText();
 
     }, 900);
 
+    /*
+     * EXACTAMENTE después de 8 segundos
+     * pasamos a la torta.
+     */
+
+    setTimeout(() => {
+
+        showScene(scenes.cake);
+
+        startCakeCountdown();
+
+    }, 8000);
 }
 
 
 /* =========================================================
-   TROMPETAS
-   HASTA SEGUNDO 8
+   EXPLOSIÓN AL ABRIR
 ========================================================= */
 
-function startTrumpetSequence() {
+function createOpeningBurst() {
 
-    /*
-       Las Mañanitas comienzan aquí.
-       A los 8 segundos:
-       transición al FELIZ CUMPLEAÑOS.
-    */
+    const container =
+        document.getElementById("ambient-lights");
 
-    wait(() => {
+    for (let i = 0; i < 80; i++) {
 
-        goTo("birthday");
+        const spark = document.createElement("div");
 
-        startBirthdaySequence();
+        spark.style.position = "fixed";
 
-    }, 7100);
+        spark.style.left = "50%";
+        spark.style.top = "50%";
 
+        spark.style.width =
+            `${Math.random() * 5 + 2}px`;
+
+        spark.style.height =
+            spark.style.width;
+
+        spark.style.borderRadius = "50%";
+
+        spark.style.background =
+            Math.random() > .4
+                ? "#78ffc9"
+                : "#e5d27f";
+
+        spark.style.boxShadow =
+            "0 0 15px currentColor";
+
+        const angle =
+            Math.random() * Math.PI * 2;
+
+        const distance =
+            150 + Math.random() * 350;
+
+        const x =
+            Math.cos(angle) * distance;
+
+        const y =
+            Math.sin(angle) * distance;
+
+        spark.animate(
+            [
+                {
+                    transform:
+                        "translate(-50%,-50%) scale(.2)",
+                    opacity: 1
+                },
+
+                {
+                    transform:
+                        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(1)`,
+                    opacity: 0
+                }
+            ],
+            {
+                duration: 1200 + Math.random() * 900,
+                easing: "cubic-bezier(.2,.8,.2,1)"
+            }
+        );
+
+        container.appendChild(spark);
+
+        setTimeout(() => {
+            spark.remove();
+        }, 2200);
+    }
 }
 
 
@@ -290,32 +250,145 @@ function startTrumpetSequence() {
    FELIZ CUMPLEAÑOS
 ========================================================= */
 
-function startBirthdaySequence() {
+function buildBirthdayText() {
 
-    /*
-       Las letras tardan aproximadamente 3.7 segundos
-       en terminar de entrar.
+    createLetters(
+        "happyText",
+        "FELIZ"
+    );
 
-       Dejamos un pequeño momento para apreciarlas.
-    */
+    createLetters(
+        "birthdayText",
+        "CUMPLEAÑOS"
+    );
 
-    wait(() => {
-
-        scenes.birthday.classList.add("explode");
-
-    }, 5700);
+    createGoldenParticles();
+}
 
 
-    wait(() => {
+function createLetters(id, text) {
 
-        scenes.birthday.classList.remove("explode");
+    const container =
+        document.getElementById(id);
 
-        goTo("cake");
+    container.innerHTML = "";
 
-        startCakeSequence();
+    [...text].forEach((letter, index) => {
 
-    }, 6600);
+        const span =
+            document.createElement("span");
 
+        span.textContent = letter;
+
+        /*
+         * Cada letra viene de una dirección distinta.
+         */
+
+        const directions = [
+            [-300, -200],
+            [300, -150],
+            [-350, 150],
+            [350, 220],
+            [-250, 300],
+            [300, 100],
+            [-300, 80],
+            [250, -250],
+            [-180, 250],
+            [200, 200]
+        ];
+
+        const direction =
+            directions[index % directions.length];
+
+        span.style.setProperty(
+            "--start-x",
+            `${direction[0]}px`
+        );
+
+        span.style.setProperty(
+            "--start-y",
+            `${direction[1]}px`
+        );
+
+        span.style.setProperty(
+            "--rotation",
+            `${Math.random() * 50 - 25}deg`
+        );
+
+        span.style.animationDelay =
+            `${index * 0.16}s`;
+
+        container.appendChild(span);
+    });
+}
+
+
+/* =========================================================
+   PARTÍCULAS DORADAS
+========================================================= */
+
+function createGoldenParticles() {
+
+    const container =
+        document.getElementById("goldenParticles");
+
+    for (let i = 0; i < 45; i++) {
+
+        const particle =
+            document.createElement("span");
+
+        particle.style.position = "absolute";
+
+        particle.style.width =
+            `${Math.random() * 4 + 1}px`;
+
+        particle.style.height =
+            particle.style.width;
+
+        particle.style.borderRadius = "50%";
+
+        particle.style.background =
+            Math.random() > .5
+                ? "#e5d27f"
+                : "#78ffc9";
+
+        particle.style.left =
+            `${Math.random() * 100}%`;
+
+        particle.style.top =
+            `${Math.random() * 100}%`;
+
+        particle.style.boxShadow =
+            "0 0 10px currentColor";
+
+        particle.animate(
+            [
+                {
+                    transform: "translateY(20px)",
+                    opacity: .2
+                },
+
+                {
+                    transform:
+                        `translateY(-${40 + Math.random() * 80}px)`,
+                    opacity: 1
+                },
+
+                {
+                    transform: "translateY(20px)",
+                    opacity: .2
+                }
+            ],
+            {
+                duration:
+                    2500 + Math.random() * 3000,
+
+                iterations: Infinity
+            }
+        );
+
+        container.appendChild(particle);
+    }
 }
 
 
@@ -323,134 +396,151 @@ function startBirthdaySequence() {
    TORTA + CUENTA REGRESIVA
 ========================================================= */
 
-function startCakeSequence() {
+function startCakeCountdown() {
 
-    const countdown =
+    const number =
         document.getElementById("countdown");
 
-    const wishText =
-        document.getElementById("wishText");
+    const text =
+        document.getElementById("countdownText");
+
+    const message =
+        document.getElementById("cakeMessage");
 
     const flame =
         document.getElementById("flame");
 
-    const blowMessage =
-        document.getElementById("blowMessage");
+    let current = 5;
 
-    let number = 5;
+    number.textContent = current;
 
-    countdown.textContent = number;
+    text.textContent = "Sopla la vela";
 
-    wishText.textContent =
-        "Pide un deseo...";
-
-    blowMessage.textContent =
-        "Sopla la vela";
+    message.textContent =
+        "Cierra los ojos y pide un deseo...";
 
     flame.style.display = "block";
 
 
-    /*
-       Cada segundo baja un número.
-    */
+    if (cakeTimer) {
+        clearInterval(cakeTimer);
+    }
 
-    const interval =
-        setInterval(() => {
 
-            number--;
+    cakeTimer = setInterval(() => {
 
-            if (number > 0) {
+        current--;
 
-                countdown.textContent =
-                    number;
+        if (current > 0) {
 
-            }
+            number.textContent = current;
 
-            else {
+        } else {
 
-                clearInterval(interval);
+            clearInterval(cakeTimer);
 
-                countdown.textContent =
-                    "";
+            number.textContent = "✦";
 
-                blowMessage.textContent =
-                    "✨";
+            text.textContent =
+                "¡Deseo concedido!";
 
-                flame.style.display =
-                    "none";
+            message.textContent =
+                "Que este nuevo año de tu vida esté lleno de luz.";
 
-                wishText.textContent =
-                    "¡Deseo concedido!";
+            /* APAGAR VELA */
+            flame.style.transition =
+                "opacity .7s ease";
 
-                createCandleExplosion();
+            flame.style.opacity = "0";
 
-                /*
-                   Después de apagar la vela,
-                   galaxia.
-                */
+            /* Estrellas */
+            createCakeStars();
 
-                wait(() => {
+            /*
+             * Después de apagar la vela
+             * pasamos a la galaxia.
+             */
 
-                    goTo("galaxy");
+            setTimeout(() => {
 
-                    createGalaxy();
+                showScene(scenes.galaxy);
 
-                }, 1800);
+                createGalaxy();
 
-            }
+            }, 1800);
+        }
 
-        }, 1000);
-
-    timers.push(interval);
-
+    }, 1000);
 }
 
 
 /* =========================================================
-   CHISPAS AL APAGAR LA VELA
+   ESTRELLAS DE LA TORTA
 ========================================================= */
 
-function createCandleExplosion() {
-
-    const container =
-        document.getElementById("light-bursts");
+function createCakeStars() {
 
     for (let i = 0; i < 60; i++) {
 
-        const spark =
+        const star =
             document.createElement("div");
 
-        spark.className = "light-burst";
+        star.style.position = "fixed";
 
-        spark.style.left = "50%";
-        spark.style.top = "45%";
+        star.style.left = "50%";
+        star.style.top = "50%";
+
+        star.style.width = "4px";
+        star.style.height = "4px";
+
+        star.style.borderRadius = "50%";
+
+        star.style.background =
+            i % 2 === 0
+                ? "#78ffc9"
+                : "#e5d27f";
+
+        star.style.boxShadow =
+            "0 0 12px currentColor";
 
         const angle =
             Math.random() * Math.PI * 2;
 
         const distance =
-            Math.random() * 300 + 80;
+            100 + Math.random() * 300;
 
-        spark.style.setProperty(
-            "--x",
-            Math.cos(angle) * distance + "px"
+        const x =
+            Math.cos(angle) * distance;
+
+        const y =
+            Math.sin(angle) * distance;
+
+        star.animate(
+            [
+                {
+                    transform:
+                        "translate(-50%,-50%) scale(.2)",
+                    opacity: 1
+                },
+
+                {
+                    transform:
+                        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(1)`,
+                    opacity: 0
+                }
+            ],
+            {
+                duration: 1600,
+                easing: "ease-out"
+            }
         );
 
-        spark.style.setProperty(
-            "--y",
-            Math.sin(angle) * distance + "px"
-        );
-
-        container.appendChild(spark);
+        document.body.appendChild(star);
 
         setTimeout(() => {
-
-            spark.remove();
-
-        }, 1500);
-
+            star.remove();
+        }, 1800);
     }
-
 }
 
 
@@ -465,56 +555,34 @@ function createGalaxy() {
 
     galaxy.innerHTML = "";
 
-    const amount = 180;
-
-    for (let i = 0; i < amount; i++) {
+    for (let i = 0; i < 100; i++) {
 
         const star =
-            document.createElement("div");
+            document.createElement("span");
 
-        star.className =
-            "galaxy-star";
-
-        /*
-           Distribución espiral.
-        */
-
-        const angle =
-            i * 0.42;
+        star.className = "galaxy-star";
 
         const radius =
-            Math.sqrt(i / amount) *
-            Math.min(
-                window.innerWidth,
-                window.innerHeight
-            ) *
-            .65;
+            50 + Math.random() * 400;
 
-        const x =
-            Math.cos(angle) * radius;
+        const duration =
+            5 + Math.random() * 12;
 
-        const y =
-            Math.sin(angle) * radius * .45;
+        star.style.setProperty(
+            "--radius",
+            `${radius}px`
+        );
 
-        star.style.left =
-            `calc(50% + ${x}px)`;
+        star.style.setProperty(
+            "--duration",
+            `${duration}s`
+        );
 
-        star.style.top =
-            `calc(50% + ${y}px)`;
-
-        const size =
-            Math.random() * 3 + 1;
-
-        star.style.width =
-            size + "px";
-
-        star.style.height =
-            size + "px";
+        star.style.transform =
+            `rotate(${Math.random() * 360}deg)`;
 
         galaxy.appendChild(star);
-
     }
-
 }
 
 
@@ -523,23 +591,93 @@ function createGalaxy() {
 ========================================================= */
 
 document
-    .getElementById("readLetter")
+    .getElementById("openLetterBtn")
     .addEventListener("click", () => {
 
-        goTo("letter");
+        showScene(scenes.letter);
+
+        createLetterConfetti();
 
     });
 
 
 /* =========================================================
-   CERRAR CARTA -> MARIPOSAS
+   DECORACIÓN DE LA CARTA
+========================================================= */
+
+function createLetterConfetti() {
+
+    const container =
+        document.querySelector(".letter-confetti");
+
+    container.innerHTML = "";
+
+    for (let i = 0; i < 35; i++) {
+
+        const item =
+            document.createElement("span");
+
+        item.textContent =
+            Math.random() > .5
+                ? "✦"
+                : "·";
+
+        item.style.position = "absolute";
+
+        item.style.left =
+            `${Math.random() * 100}%`;
+
+        item.style.top =
+            `${Math.random() * 100}%`;
+
+        item.style.color =
+            Math.random() > .5
+                ? "rgba(120,255,201,.35)"
+                : "rgba(229,210,127,.35)";
+
+        item.style.fontSize =
+            `${Math.random() * 15 + 5}px`;
+
+        item.animate(
+            [
+                {
+                    transform: "translateY(0)",
+                    opacity: .2
+                },
+
+                {
+                    transform:
+                        `translateY(-${20 + Math.random() * 40}px)`,
+                    opacity: .8
+                },
+
+                {
+                    transform: "translateY(0)",
+                    opacity: .2
+                }
+            ],
+            {
+                duration:
+                    2500 + Math.random() * 3000,
+
+                iterations: Infinity
+            }
+        );
+
+        container.appendChild(item);
+    }
+}
+
+
+/* =========================================================
+   CERRAR CARTA
 ========================================================= */
 
 document
-    .getElementById("closeLetter")
+    .getElementById("closeLetterBtn")
     .addEventListener("click", () => {
 
-        goTo("butterfly");
+        showScene(scenes.butterfly);
 
         startButterflyEnding();
 
@@ -547,7 +685,30 @@ document
 
 
 /* =========================================================
-   LUCIÉRNAGAS
+   FINAL - MARIPOSA DE LUCIÉRNAGAS
+========================================================= */
+
+function startButterflyEnding() {
+
+    createFireflies();
+
+    createSmallButterflies();
+
+    /*
+     * Esperamos un momento para que las luces
+     * aparezcan desde la oscuridad.
+     */
+
+    setTimeout(() => {
+
+        formButterfly();
+
+    }, 700);
+}
+
+
+/* =========================================================
+   CREAR LUCIÉRNAGAS
 ========================================================= */
 
 function createFireflies() {
@@ -557,357 +718,253 @@ function createFireflies() {
 
     container.innerHTML = "";
 
-    const amount =
-        window.innerWidth < 600
-            ? 80
-            : 130;
+    /*
+     * Creamos una cantidad suficiente
+     * para que la mariposa sea visible.
+     */
 
-    for (let i = 0; i < amount; i++) {
+    for (let i = 0; i < 70; i++) {
 
         const firefly =
             document.createElement("div");
 
-        firefly.className =
-            "firefly";
+        firefly.className = "firefly";
+
+        /*
+         * Al principio nacen en posiciones aleatorias.
+         */
 
         firefly.style.left =
-            Math.random() * 100 + "%";
+            `${Math.random() * 100}%`;
 
         firefly.style.top =
-            Math.random() * 100 + "%";
+            `${Math.random() * 100}%`;
 
-        firefly.style.setProperty(
-            "--x",
-            (Math.random() * 100 - 50) + "px"
-        );
-
-        firefly.style.setProperty(
-            "--y",
-            (Math.random() * 100 - 50) + "px"
-        );
-
-        firefly.style.setProperty(
-            "--duration",
-            (Math.random() * 2 + 2) + "s"
-        );
-
-        firefly.style.animationDelay =
-            Math.random() * 2 + "s";
+        firefly.style.opacity =
+            "0";
 
         container.appendChild(firefly);
 
-    }
+        /*
+         * Aparecen poco a poco.
+         */
 
+        setTimeout(() => {
+
+            firefly.classList.add("forming");
+
+        }, Math.random() * 1300);
+    }
 }
 
 
 /* =========================================================
-   MARIPOSA GRANDE
+   POSICIONES DE LA MARIPOSA
 ========================================================= */
 
-function createButterfly() {
+function formButterfly() {
+
+    const flies =
+        document.querySelectorAll(".firefly");
+
+    /*
+     * Ecuación aproximada de corazón/mariposa.
+     *
+     * Generamos puntos sobre dos alas.
+     */
+
+    const positions = [];
+
+    for (let i = 0; i < 35; i++) {
+
+        const t =
+            Math.PI * 2 * i / 35;
+
+        /*
+         * Ala izquierda
+         */
+
+        positions.push({
+            x:
+                50 -
+                Math.abs(Math.sin(t)) * 28 -
+                Math.random() * 4,
+
+            y:
+                45 +
+                Math.cos(t) * 27
+        });
+
+        /*
+         * Ala derecha
+         */
+
+        positions.push({
+            x:
+                50 +
+                Math.abs(Math.sin(t)) * 28 +
+                Math.random() * 4,
+
+            y:
+                45 +
+                Math.cos(t) * 27
+        });
+    }
+
+
+    flies.forEach((fly, index) => {
+
+        const point =
+            positions[index % positions.length];
+
+        fly.style.left =
+            `${point.x}%`;
+
+        fly.style.top =
+            `${point.y}%`;
+
+        fly.classList.add("glow");
+    });
+
+
+    /*
+     * Ahora aparece la mariposa grande.
+     */
+
+    setTimeout(() => {
+
+        document
+            .getElementById("mainButterfly")
+            .classList.add("visible");
+
+    }, 2400);
+
+
+    /*
+     * Las luciérnagas brillan formando la figura.
+     */
+
+    setTimeout(() => {
+
+        flies.forEach((fly, index) => {
+
+            setTimeout(() => {
+
+                fly.classList.remove("glow");
+
+            }, index * 15);
+
+        });
+
+    }, 4000);
+
+
+    /*
+     * Y DESPUÉS SE DISPERSAN.
+     */
+
+    setTimeout(() => {
+
+        flies.forEach(fly => {
+
+            fly.style.setProperty(
+                "--random-x",
+                `${Math.random() * 110 - 5}%`
+            );
+
+            fly.style.setProperty(
+                "--random-y",
+                `${Math.random() * 110 - 5}%`
+            );
+
+            fly.classList.add("disperse");
+
+        });
+
+    }, 5700);
+
+
+    /*
+     * AQUÍ ESTÁ EL CIERRE.
+     *
+     * No depende de que las luciérnagas
+     * terminen ninguna animación.
+     *
+     * El texto aparece sí o sí.
+     */
+
+    setTimeout(() => {
+
+        document
+            .getElementById("finalText")
+            .classList.add("visible");
+
+    }, 6200);
+}
+
+
+/* =========================================================
+   MARIPOSAS PEQUEÑAS
+========================================================= */
+
+function createSmallButterflies() {
 
     const container =
-        document.getElementById("bigButterfly");
+        document.getElementById("smallButterflies");
 
     container.innerHTML = "";
 
-    /*
-       Coordenadas de una mariposa.
+    const amount = 9;
 
-       Cada punto es una luciérnaga.
-       Las partículas comienzan lejos y
-       vuelan hacia estas coordenadas.
-    */
+    for (let i = 0; i < amount; i++) {
 
-    const points = [];
-
-    /*
-       ALA IZQUIERDA
-    */
-
-    for (let i = 0; i < 55; i++) {
-
-        const t = Math.random();
-
-        const x =
-            -20 -
-            Math.random() * 130 *
-            (0.4 + Math.sin(t * Math.PI) * .7);
-
-        const y =
-            (Math.random() - .5) *
-            170 *
-            (0.5 + t);
-
-        points.push([x, y]);
-
-    }
-
-
-    /*
-       ALA DERECHA
-    */
-
-    for (let i = 0; i < 55; i++) {
-
-        const t = Math.random();
-
-        const x =
-            20 +
-            Math.random() * 130 *
-            (0.4 + Math.sin(t * Math.PI) * .7);
-
-        const y =
-            (Math.random() - .5) *
-            170 *
-            (0.5 + t);
-
-        points.push([x, y]);
-
-    }
-
-
-    /*
-       BORDE SUPERIOR IZQUIERDO
-    */
-
-    for (let i = 0; i < 35; i++) {
-
-        const angle =
-            Math.random() * Math.PI;
-
-        const radius =
-            50 + Math.random() * 85;
-
-        const x =
-            -30 -
-            Math.cos(angle) * radius;
-
-        const y =
-            -20 -
-            Math.sin(angle) * radius * .65;
-
-        points.push([x, y]);
-
-    }
-
-
-    /*
-       BORDE SUPERIOR DERECHO
-    */
-
-    for (let i = 0; i < 35; i++) {
-
-        const angle =
-            Math.random() * Math.PI;
-
-        const radius =
-            50 + Math.random() * 85;
-
-        const x =
-            30 +
-            Math.cos(angle) * radius;
-
-        const y =
-            -20 -
-            Math.sin(angle) * radius * .65;
-
-        points.push([x, y]);
-
-    }
-
-
-    /*
-       CUERPO
-    */
-
-    for (let i = 0; i < 35; i++) {
-
-        const y =
-            -90 +
-            Math.random() * 180;
-
-        points.push([
-            (Math.random() - .5) * 12,
-            y
-        ]);
-
-    }
-
-
-    points.forEach((point, index) => {
-
-        const particle =
+        const butterfly =
             document.createElement("div");
 
-        particle.className =
-            "butterfly-particle";
+        butterfly.className =
+            "small-butterfly";
+
+        butterfly.textContent =
+            "🦋";
 
         /*
-           Posición inicial:
-           alejada.
-        */
+         * Se usa solamente en las pequeñas.
+         * La mariposa principal NO depende de emoji.
+         */
 
-        particle.style.setProperty(
-            "--sx",
-            (Math.random() * 700 - 350) + "px"
+        butterfly.style.left =
+            `${10 + Math.random() * 80}%`;
+
+        butterfly.style.top =
+            `${15 + Math.random() * 65}%`;
+
+        butterfly.style.setProperty(
+            "--move-x",
+            `${Math.random() * 120 - 60}px`
         );
 
-        particle.style.setProperty(
-            "--sy",
-            (Math.random() * 600 - 300) + "px"
+        butterfly.style.setProperty(
+            "--move-y",
+            `${Math.random() * 120 - 60}px`
         );
 
-
-        /*
-           Posición final.
-        */
-
-        particle.style.setProperty(
-            "--tx",
-            point[0] + "px"
+        butterfly.style.setProperty(
+            "--duration",
+            `${4 + Math.random() * 4}s`
         );
 
-        particle.style.setProperty(
-            "--ty",
-            point[1] + "px"
-        );
+        butterfly.style.animationDelay =
+            `${Math.random() * 2}s`;
 
-        particle.style.setProperty(
-            "--scale",
-            (Math.random() * .8 + .6)
-        );
-
-        particle.style.setProperty(
-            "--delay",
-            Math.random() * 1.7 + "s"
-        );
-
-        container.appendChild(particle);
-
-    });
-
-}
-
-
-/* =========================================================
-   DISPERSIÓN DE MARIPOSA
-========================================================= */
-
-function butterflyDisperse() {
-
-    const particles =
-        document.querySelectorAll(
-            ".butterfly-particle"
-        );
-
-    particles.forEach((particle, index) => {
-
-        const angle =
-            Math.random() * Math.PI * 2;
-
-        const distance =
-            Math.random() * 600 + 200;
-
-        particle.style.animation =
-            "none";
-
-        particle.offsetHeight;
-
-        particle.style.transition =
-            "transform 2s ease-out, opacity 2s ease-out";
-
-        particle.style.transform =
-            `translate(
-                ${Math.cos(angle) * distance}px,
-                ${Math.sin(angle) * distance}px
-            ) scale(.1)`;
-
-        particle.style.opacity = "0";
-
-    });
-
-}
-
-
-/* =========================================================
-   CIERRE COMPLETO
-========================================================= */
-
-function startButterflyEnding() {
-
-    /*
-       Limpiamos cualquier resto.
-    */
-
-    clearTimers();
-
-    createFireflies();
-
-    createButterfly();
-
-
-    /*
-       La mariposa se forma.
-    */
-
-    wait(() => {
-
-        /*
-           Después de formarse permanece unos segundos.
-           NO termina la página.
-        */
-
-    }, 3500);
-
-
-    /*
-       A los 8 segundos se dispersa.
-    */
-
-    wait(() => {
-
-        butterflyDisperse();
-
-    }, 8000);
-
-
-    /*
-       Luego dejamos las luces flotando
-       y el mensaje final permanece.
-    */
-
-}
-
-
-/* =========================================================
-   PREVENIR DOBLE CLICK
-========================================================= */
-
-document.addEventListener(
-    "click",
-    event => {
-
-        if (
-            currentScene === "gift" &&
-            event.target !==
-            document.getElementById("openGift")
-        ) {
-
-            /*
-               No hacemos nada.
-            */
-
-        }
-
+        container.appendChild(butterfly);
     }
-);
+}
 
 
 /* =========================================================
-   INICIO
+   PREVENIR SCROLL DEL BODY
 ========================================================= */
 
-createStars();
-createFloatingLights();
+document.body.addEventListener(
+    "touchmove",
+    function (event) {
