@@ -8,1054 +8,438 @@ let countdownStarted = false;
 let letterOpened = false;
 let finalStarted = false;
 
-
 /* =========================================================
    INICIAR
 ========================================================= */
 
 window.startExperience = function () {
-
     if (experienceStarted) return;
-
     experienceStarted = true;
 
     console.log("🎁 INICIANDO EXPERIENCIA");
 
-
-    const giftScene =
-        document.getElementById("scene-gift");
-
-    const birthdayScene =
-        document.getElementById("scene-birthday");
-
-    const music =
-        document.getElementById("bgMusic");
-
+    const giftScene = document.getElementById("scene-gift");
+    const birthdayScene = document.getElementById("scene-birthday");
+    const music = document.getElementById("bgMusic");
 
     /* -----------------------------------------------
        OCULTAR REGALO
     ------------------------------------------------ */
-
     if (giftScene) {
-
         giftScene.classList.remove("active");
-
         setTimeout(() => {
-
             giftScene.style.display = "none";
-
         }, 1000);
-
     }
-
 
     /* -----------------------------------------------
        MUSICA
     ------------------------------------------------ */
-
     if (music) {
-
         music.currentTime = 0;
-
-        const promise =
-            music.play();
-
+        const promise = music.play();
         if (promise) {
-
             promise
                 .then(() => {
-
-                    console.log(
-                        "🎵 Mañanitas reproduciéndose"
-                    );
-
+                    console.log("🎵 Mañanitas reproduciéndose");
                 })
                 .catch(() => {
-
-                    console.log(
-                        "Audio bloqueado, pero continúa la experiencia."
-                    );
-
+                    console.log("Audio bloqueado, pero continúa la experiencia.");
                 });
-
         }
-
     }
-
 
     /* -----------------------------------------------
        LUCES
     ------------------------------------------------ */
-
     generateAmbientLights();
-
 
     /* -----------------------------------------------
        FELIZ CUMPLEAÑOS
     ------------------------------------------------ */
-
     setTimeout(() => {
-
         if (birthdayScene) {
-
             birthdayScene.style.display = "flex";
-
             setTimeout(() => {
-
                 birthdayScene.classList.add("active");
-
             }, 50);
-
         }
-
         createBirthdayLetters();
-
     }, 250);
-
 };
-
 
 /* =========================================================
    DOM READY
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("✅ Página cargada correctamente");
 
-        console.log(
-            "✅ Página cargada correctamente"
-        );
+    /* ---------------------------------------------
+       BOTON REGALO
+    ---------------------------------------------- */
+    const button = document.getElementById("openGiftBtn");
+    const box = document.getElementById("giftBox");
 
-
-        /* ---------------------------------------------
-           BOTON REGALO
-        ---------------------------------------------- */
-
-        const button =
-            document.getElementById(
-                "openGiftBtn"
-            );
-
-        const box =
-            document.getElementById(
-                "giftBox"
-            );
-
-
-        if (button) {
-
-            button.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-                    window.startExperience();
-
-                }
-            );
-
-        }
-
-
-        if (box) {
-
-            box.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-                    window.startExperience();
-
-                }
-            );
-
-        }
-
-
-        /* ---------------------------------------------
-           CARTA
-        ---------------------------------------------- */
-
-        const openLetter =
-            document.getElementById(
-                "openLetterBtn"
-            );
-
-        if (openLetter) {
-
-            openLetter.addEventListener(
-                "click",
-                openLetterScene
-            );
-
-        }
-
-
-        /* ---------------------------------------------
-           CONTINUAR CARTA
-        ---------------------------------------------- */
-
-        const closeLetter =
-            document.getElementById(
-                "closeLetterBtn"
-            );
-
-        if (closeLetter) {
-
-            closeLetter.addEventListener(
-                "click",
-                startFinalButterflies
-            );
-
-        }
-
+    if (button) {
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            window.startExperience();
+        });
     }
-);
 
+    if (box) {
+        box.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            window.startExperience();
+        });
+    }
+
+    /* ---------------------------------------------
+       CARTA
+    ---------------------------------------------- */
+    const openLetter = document.getElementById("openLetterBtn");
+    if (openLetter) {
+        openLetter.addEventListener("click", openLetterScene);
+    }
+
+    /* ---------------------------------------------
+       CONTINUAR CARTA
+    ---------------------------------------------- */
+    const closeLetter = document.getElementById("closeLetterBtn");
+    if (closeLetter) {
+        closeLetter.addEventListener("click", startFinalButterflies);
+    }
+});
 
 /* =========================================================
    LUCES DE FONDO
 ========================================================= */
 
 function generateAmbientLights() {
-
-    const container =
-        document.getElementById(
-            "ambient-lights"
-        );
-
+    const container = document.getElementById("ambient-lights");
     if (!container) return;
-
 
     container.innerHTML = "";
 
+    for (let i = 0; i < 120; i++) {
+        const light = document.createElement("div");
+        light.className = "ambient-light";
 
-    for (
-        let i = 0;
-        i < 120;
-        i++
-    ) {
+        const size = Math.random() * 5 + 2;
+        light.style.width = size + "px";
+        light.style.height = size + "px";
 
-        const light =
-            document.createElement("div");
+        light.style.left = Math.random() * 100 + "%";
+        light.style.top = Math.random() * 100 + "%";
 
+        light.style.setProperty("--speed", (Math.random() * 5 + 3) + "s");
+        light.style.animationDelay = (Math.random() * 5) + "s";
 
-        light.className =
-            "ambient-light";
-
-
-        const size =
-            Math.random() * 5 + 2;
-
-
-        light.style.width =
-            size + "px";
-
-        light.style.height =
-            size + "px";
-
-
-        light.style.left =
-            Math.random() * 100 + "%";
-
-
-        light.style.top =
-            Math.random() * 100 + "%";
-
-
-        light.style.setProperty(
-            "--speed",
-            (Math.random() * 5 + 3) +
-            "s"
-        );
-
-
-        light.style.animationDelay =
-            (Math.random() * 5) +
-            "s";
-
-
-        container.appendChild(
-            light
-        );
-
+        container.appendChild(light);
     }
-
 }
-
 
 /* =========================================================
    LETRAS FELIZ CUMPLEAÑOS
 ========================================================= */
 
 function createBirthdayLetters() {
-
-    const happy =
-        document.getElementById(
-            "happyText"
-        );
-
-    const birthday =
-        document.getElementById(
-            "birthdayText"
-        );
-
+    const happy = document.getElementById("happyText");
+    const birthday = document.getElementById("birthdayText");
 
     if (!happy || !birthday) return;
 
-
     happy.innerHTML = "";
-
     birthday.innerHTML = "";
 
-
-    /* ---------------------------------------------
-       FELIZ
-    ---------------------------------------------- */
-
-    createWord(
-        "FELIZ",
-        happy,
-        0
-    );
-
-
-    /* ---------------------------------------------
-       CUMPLEAÑOS
-    ---------------------------------------------- */
-
-    createWord(
-        "CUMPLEAÑOS",
-        birthday,
-        5
-    );
-
+    createWord("FELIZ", happy, 0);
+    createWord("CUMPLEAÑOS", birthday, 5);
 }
-
 
 /* =========================================================
    CREAR PALABRA LETRA POR LETRA
 ========================================================= */
 
-function createWord(
-    word,
-    container,
-    delayStart
-) {
+function createWord(word, container, delayStart) {
+    for (let i = 0; i < word.length; i++) {
+        const letter = document.createElement("span");
+        letter.textContent = word[i];
 
-    for (
-        let i = 0;
-        i < word.length;
-        i++
-    ) {
+        const randomX = (Math.random() * 500 - 250);
+        const randomY = (Math.random() * 500 - 250);
+        const randomRotation = (Math.random() * 70 - 35);
 
-        const letter =
-            document.createElement("span");
+        letter.style.setProperty("--start-x", randomX + "px");
+        letter.style.setProperty("--start-y", randomY + "px");
+        letter.style.setProperty("--rotation", randomRotation + "deg");
+        letter.style.animationDelay = (delayStart + i * .25) + "s";
 
-
-        letter.textContent =
-            word[i];
-
-
-        /* Cada letra llega desde un lado
-           diferente */
-
-        const randomX =
-            (Math.random() * 500 - 250);
-
-
-        const randomY =
-            (Math.random() * 500 - 250);
-
-
-        const randomRotation =
-            (Math.random() * 70 - 35);
-
-
-        letter.style.setProperty(
-            "--start-x",
-            randomX + "px"
-        );
-
-
-        letter.style.setProperty(
-            "--start-y",
-            randomY + "px"
-        );
-
-
-        letter.style.setProperty(
-            "--rotation",
-            randomRotation + "deg"
-        );
-
-
-        letter.style.animationDelay =
-            (
-                delayStart +
-                i * .25
-            ) + "s";
-
-
-        container.appendChild(
-            letter
-        );
-
+        container.appendChild(letter);
     }
-
 }
-
 
 /* =========================================================
    TRANSICION A TORTA
 ========================================================= */
 
 setTimeout(() => {
-
     if (!experienceStarted) return;
 
-    const birthday =
-        document.getElementById(
-            "scene-birthday"
-        );
-
-    const cake =
-        document.getElementById(
-            "scene-cake"
-        );
-
+    const birthday = document.getElementById("scene-birthday");
+    const cake = document.getElementById("scene-cake");
 
     if (!birthday || !cake) return;
 
-
-    birthday.classList.remove(
-        "active"
-    );
-
+    birthday.classList.remove("active");
 
     setTimeout(() => {
-
-        birthday.style.display =
-            "none";
-
-        cake.style.display =
-            "flex";
-
+        birthday.style.display = "none";
+        cake.style.display = "flex";
 
         setTimeout(() => {
-
-            cake.classList.add(
-                "active"
-            );
-
+            cake.classList.add("active");
             startCountdown();
-
         }, 100);
-
     }, 900);
-
 }, 11000);
-
 
 /* =========================================================
    CUENTA REGRESIVA
 ========================================================= */
 
 function startCountdown() {
-
     if (countdownStarted) return;
-
     countdownStarted = true;
 
-
-    const number =
-        document.getElementById(
-            "countdown"
-        );
-
-    const title =
-        document.getElementById(
-            "countdownText"
-        );
-
-    const message =
-        document.getElementById(
-            "cakeMessage"
-        );
-
-    const flame =
-        document.getElementById(
-            "flame"
-        );
-
+    const number = document.getElementById("countdown");
+    const title = document.getElementById("countdownText");
+    const message = document.getElementById("cakeMessage");
+    const flame = document.getElementById("flame");
 
     if (!number) return;
 
-
     let count = 5;
+    number.textContent = count;
 
+    const timer = setInterval(() => {
+        count--;
 
-    number.textContent =
-        count;
+        if (count > 0) {
+            number.textContent = count;
+            return;
+        }
 
+        clearInterval(timer);
+        number.textContent = "";
 
-    const timer =
-        setInterval(() => {
+        if (flame) {
+            flame.classList.add("flame-off");
+            setTimeout(() => {
+                flame.style.display = "none";
+            }, 700);
+        }
 
-            count--;
+        if (title) {
+            title.textContent = "✨ ¡Deseo concedido! ✨";
+        }
 
+        if (message) {
+            message.textContent = "Que todos tus deseos se hagan realidad.";
+        }
 
-            if (count > 0) {
+        createGalaxy();
 
-                number.textContent =
-                    count;
+        setTimeout(() => {
+            const cake = document.getElementById("scene-cake");
+            const galaxy = document.getElementById("scene-galaxy");
 
-                return;
+            if (!cake || !galaxy) return;
 
-            }
-
-
-            clearInterval(timer);
-
-
-            number.textContent =
-                "";
-
-
-            if (flame) {
-
-                flame.classList.add(
-                    "flame-off"
-                );
-
-                setTimeout(() => {
-
-                    flame.style.display =
-                        "none";
-
-                }, 700);
-
-            }
-
-
-            if (title) {
-
-                title.textContent =
-                    "✨ ¡Deseo concedido! ✨";
-
-            }
-
-
-            if (message) {
-
-                message.textContent =
-                    "Que todos tus deseos se hagan realidad.";
-
-            }
-
-
-            createGalaxy();
-
-
-            /* -------------------------------------
-               PASAR A GALAXIA
-            -------------------------------------- */
+            cake.classList.remove("active");
 
             setTimeout(() => {
-
-                const cake =
-                    document.getElementById(
-                        "scene-cake"
-                    );
-
-                const galaxy =
-                    document.getElementById(
-                        "scene-galaxy"
-                    );
-
-
-                if (!cake || !galaxy)
-                    return;
-
-
-                cake.classList.remove(
-                    "active"
-                );
-
-
-                setTimeout(() => {
-
-                    cake.style.display =
-                        "none";
-
-                    galaxy.style.display =
-                        "flex";
-
-                    galaxy.classList.add(
-                        "active"
-                    );
-
-                }, 800);
-
-            }, 2500);
-
-        }, 1000);
-
+                cake.style.display = "none";
+                galaxy.style.display = "flex";
+                galaxy.classList.add("active");
+            }, 800);
+        }, 2500);
+    }, 1000);
 }
-
 
 /* =========================================================
    GALAXIA ESPIRAL
 ========================================================= */
 
 function createGalaxy() {
-
-    const galaxy =
-        document.getElementById(
-            "galaxy"
-        );
-
-
+    const galaxy = document.getElementById("galaxy");
     if (!galaxy) return;
-
 
     galaxy.innerHTML = "";
 
+    for (let i = 0; i < 180; i++) {
+        const star = document.createElement("div");
+        star.className = "galaxy-star";
 
-    for (
-        let i = 0;
-        i < 180;
-        i++
-    ) {
+        const radius = 30 + Math.random() * 230;
+        const duration = 5 + Math.random() * 8;
 
-        const star =
-            document.createElement(
-                "div"
-            );
+        star.style.setProperty("--radius", radius + "px");
+        star.style.setProperty("--duration", duration + "s");
+        star.style.animationDelay = -(Math.random() * duration) + "s";
 
-
-        star.className =
-            "galaxy-star";
-
-
-        const radius =
-            30 +
-            Math.random() * 230;
-
-
-        const duration =
-            5 +
-            Math.random() * 8;
-
-
-        star.style.setProperty(
-            "--radius",
-            radius + "px"
-        );
-
-
-        star.style.setProperty(
-            "--duration",
-            duration + "s"
-        );
-
-
-        star.style.animationDelay =
-            -(Math.random() * duration) +
-            "s";
-
-
-        galaxy.appendChild(
-            star
-        );
-
+        galaxy.appendChild(star);
     }
-
 }
-
 
 /* =========================================================
    ABRIR CARTA
 ========================================================= */
 
 function openLetterScene() {
-
     if (letterOpened) return;
-
     letterOpened = true;
 
+    const galaxy = document.getElementById("scene-galaxy");
+    const letter = document.getElementById("scene-letter");
 
-    const galaxy =
-        document.getElementById(
-            "scene-galaxy"
-        );
+    if (!galaxy || !letter) return;
 
-    const letter =
-        document.getElementById(
-            "scene-letter"
-        );
-
-
-    if (!galaxy || !letter)
-        return;
-
-
-    galaxy.classList.remove(
-        "active"
-    );
-
+    galaxy.classList.remove("active");
 
     setTimeout(() => {
-
-        galaxy.style.display =
-            "none";
-
-        letter.style.display =
-            "flex";
-
-        letter.classList.add(
-            "active"
-        );
-
+        galaxy.style.display = "none";
+        letter.style.display = "flex";
+        letter.classList.add("active");
     }, 900);
-
 }
-
 
 /* =========================================================
    FINAL MARIPOSAS
 ========================================================= */
 
 function startFinalButterflies() {
-
     if (finalStarted) return;
-
     finalStarted = true;
 
+    const letter = document.getElementById("scene-letter");
+    const finalScene = document.getElementById("scene-butterfly");
 
-    const letter =
-        document.getElementById(
-            "scene-letter"
-        );
+    if (!letter || !finalScene) return;
 
-    const finalScene =
-        document.getElementById(
-            "scene-butterfly"
-        );
-
-
-    if (!letter || !finalScene)
-        return;
-
-
-    letter.classList.remove(
-        "active"
-    );
-
+    letter.classList.remove("active");
 
     setTimeout(() => {
-
-        letter.style.display =
-            "none";
-
-        finalScene.style.display =
-            "flex";
-
-        finalScene.classList.add(
-            "active"
-        );
-
+        letter.style.display = "none";
+        finalScene.style.display = "flex";
+        finalScene.classList.add("active");
 
         createFireflyButterfly();
-
     }, 900);
-
 }
 
-
 /* =========================================================
-   MARIPOSA DE LUCIERNAGAS
+   MARIPOSA DE LUCIÉRNAGAS PERFECTA
 ========================================================= */
 
 function createFireflyButterfly() {
-
-    const container =
-        document.getElementById(
-            "fireflies"
-        );
-
-
-    const butterfly =
-        document.getElementById(
-            "mainButterfly"
-        );
-
-
-    const text =
-        document.getElementById(
-            "finalText"
-        );
-
+    const container = document.getElementById("fireflies");
+    const text = document.getElementById("finalText");
 
     if (!container) return;
 
-
     container.innerHTML = "";
 
-
-    /* ---------------------------------------------
-       PUNTOS QUE FORMAN LAS ALAS
-    ---------------------------------------------- */
-
     const points = [];
+    const totalParticles = 160;
 
+    /* ---------------------------------------------
+       1. ALAS (Ecuación Paramétrica de Mariposa)
+    ---------------------------------------------- */
+    for (let i = 0; i < totalParticles; i++) {
+        const t = (i / totalParticles) * Math.PI * 2 * 2;
+        const r = Math.exp(Math.cos(t)) - 2 * Math.cos(4 * t) + Math.pow(Math.sin(t / 12), 5);
 
-    /* Ala izquierda */
-
-    for (
-        let i = 0;
-        i < 28;
-        i++
-    ) {
-
-        const angle =
-            Math.random() *
-            Math.PI * 2;
-
-
-        const radius =
-            Math.random() * 115;
-
-
-        const x =
-            -65 -
-            Math.abs(
-                Math.cos(angle) *
-                radius
-            );
-
-
-        const y =
-            Math.sin(angle) *
-            radius *
-            .85;
-
+        const x = Math.sin(t) * r * 38;
+        const y = -Math.cos(t) * r * 38 - 40;
 
         points.push({
-            x: 50 + x / 2,
-            y: 50 + y / 2
+            x: 50 + (x / window.innerWidth) * 100,
+            y: 45 + (y / window.innerHeight) * 100
         });
-
     }
 
-
-    /* Ala derecha */
-
-    for (
-        let i = 0;
-        i < 28;
-        i++
-    ) {
-
-        const angle =
-            Math.random() *
-            Math.PI * 2;
-
-
-        const radius =
-            Math.random() * 115;
-
-
-        const x =
-            65 +
-            Math.abs(
-                Math.cos(angle) *
-                radius
-            );
-
-
-        const y =
-            Math.sin(angle) *
-            radius *
-            .85;
-
-
+    /* ---------------------------------------------
+       2. CUERPO Y ANTENAS
+    ---------------------------------------------- */
+    // Torso central
+    for (let i = 0; i < 15; i++) {
         points.push({
-            x: 50 + x / 2,
-            y: 50 + y / 2
+            x: 50,
+            y: 38 + (i * 0.9)
         });
-
     }
 
+    // Antena Izquierda
+    for (let i = 0; i < 8; i++) {
+        points.push({
+            x: 50 - (i * 0.6),
+            y: 37 - (i * 0.8)
+        });
+    }
+
+    // Antena Derecha
+    for (let i = 0; i < 8; i++) {
+        points.push({
+            x: 50 + (i * 0.6),
+            y: 37 - (i * 0.8)
+        });
+    }
 
     /* ---------------------------------------------
-       CREAR LUCIERNAGAS
+       CREAR ELEMENTOS DE LUZ
     ---------------------------------------------- */
+    points.forEach((point, index) => {
+        const firefly = document.createElement("div");
+        firefly.className = "firefly";
 
-    points.forEach(
-        (point, index) => {
+        firefly.style.left = "50%";
+        firefly.style.top = "50%";
 
-            const firefly =
-                document.createElement(
-                    "div"
-                );
+        firefly.style.transitionDelay = (index * 0.012) + "s";
 
+        firefly.dataset.x = point.x;
+        firefly.dataset.y = point.y;
 
-            firefly.className =
-                "firefly";
-
-
-            firefly.style.left =
-                "50%";
-
-            firefly.style.top =
-                "50%";
-
-
-            firefly.style.transitionDelay =
-                (index * .035) +
-                "s";
-
-
-            firefly.dataset.x =
-                point.x;
-
-            firefly.dataset.y =
-                point.y;
-
-
-            firefly.style.setProperty(
-                "--random-x",
-                Math.random() * 100 +
-                "%"
-            );
-
-
-            firefly.style.setProperty(
-                "--random-y",
-                Math.random() * 100 +
-                "%"
-            );
-
-
-            container.appendChild(
-                firefly
-            );
-
-        }
-    );
-
+        container.appendChild(firefly);
+    });
 
     /* ---------------------------------------------
-       FORMAR MARIPOSA
+       ANIMACIÓN: ARMAR MARIPOSA
     ---------------------------------------------- */
-
     setTimeout(() => {
+        const fireflies = document.querySelectorAll(".firefly");
 
-        const fireflies =
-            document.querySelectorAll(
-                ".firefly"
-            );
-
-
-        fireflies.forEach(
-            firefly => {
-
-                firefly.style.left =
-                    firefly.dataset.x +
-                    "%";
-
-                firefly.style.top =
-                    firefly.dataset.y +
-                    "%";
-
-
-                firefly.classList.add(
-                    "forming"
-                );
-
-            }
-        );
-
-    }, 400);
-
+        fireflies.forEach(firefly => {
+            firefly.style.left = firefly.dataset.x + "%";
+            firefly.style.top = firefly.dataset.y + "%";
+            firefly.classList.add("forming");
+        });
+    }, 300);
 
     /* ---------------------------------------------
-       APARECE MARIPOSA
+       ANIMACIÓN: PULSACIÓN Y TEXTO FINAL
     ---------------------------------------------- */
-
     setTimeout(() => {
-
-        if (butterfly) {
-
-            butterfly.classList.add(
-                "visible"
-            );
-
-        }
-
-    }, 3500);
-
-
-    /* ---------------------------------------------
-       TEXTO
-    ---------------------------------------------- */
-
-    setTimeout(() => {
+        const fireflies = document.querySelectorAll(".firefly");
+        fireflies.forEach(firefly => {
+            firefly.classList.add("glowing");
+        });
 
         if (text) {
-
-            text.classList.add(
-                "visible"
-            );
-
+            text.classList.add("visible");
         }
-
-    }, 5000);
-
-
-    /* ---------------------------------------------
-       DISPERSIÓN
-    ---------------------------------------------- */
-
-    setTimeout(() => {
-
-        const fireflies =
-            document.querySelectorAll(
-                ".firefly"
-            );
-
-
-        fireflies.forEach(
-            (firefly, index) => {
-
-                setTimeout(() => {
-
-                    firefly.classList.add(
-                        "disperse"
-                    );
-
-                }, index * 20);
-
-            }
-        );
-
-
-        if (butterfly) {
-
-            butterfly.classList.remove(
-                "visible"
-            );
-
-        }
-
-    }, 8500);
-
+    }, 2800);
 }
